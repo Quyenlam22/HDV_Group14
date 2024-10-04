@@ -43,7 +43,7 @@
     margin-bottom: 0;
     font-size: 28px;
     font-weight: 600;
-    color: aqua;
+    color: #333;
 }
 
 /* product-item */
@@ -63,6 +63,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    cursor: pointer;
 }
 
 .product-item .inner-content{

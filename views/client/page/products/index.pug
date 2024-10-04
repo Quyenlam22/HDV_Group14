@@ -9,21 +9,17 @@ block main
         //- +box-head("Danh sách sản phẩm")
 
     .row 
-    //-   each item in products
-    .col-4.mb-3 
-        .product-item 
-          .inner-image 
-            img(src="/images/Logo.jpg", alt="Logo")
-            //- img(
-            //- src=item.thumbnail 
-            //- alt=item.title
-            //- )
-          .inner-content 
-              h3.inner-title Title
-              .inner-price-new Price New
-              .inner-price-old Price Old
-              .inner-discount -Discount
-              //- h3.inner-title #{item.title}
-              //- .inner-price-new #{item.priceNew}$
-              //- .inner-price-old #{item.price}$
-              //- .inner-discount -#{item.discountPercentage}%
+      each item in products
+        .col-4.mb-3 
+            .product-item 
+              .inner-image 
+                img(
+                src=item.image 
+                alt=item.title
+                zoom-image
+                )
+              .inner-content 
+                h3.inner-title #{item.title}
+                .inner-price-new #{item.newPrice}$
+                .inner-price-old #{item.oldPrice}$
+                .inner-discount -#{item.discountPercent}%
