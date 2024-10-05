@@ -1,12 +1,16 @@
 extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/search.pug
 
 block main
   .container.my-3 
     .row 
       .col-12 
-        .box-head 
-          h2.inner-title Danh sách sản phẩm
-        //- +box-head("Danh sách sản phẩm")
+        .row
+          .col-9
+            +box-head("Danh sách sản phẩm")
+          .col-3
+            +search(keyword)
 
     .row 
       each item in products
