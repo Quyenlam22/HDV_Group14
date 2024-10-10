@@ -25,3 +25,54 @@ if(formSearch){
         window.location.href = url.href
     })
 }
+
+//Filter Brand
+const buttonsBrand = document.querySelectorAll("[button-brand]")
+if(buttonsBrand.length > 0){
+    buttonsBrand.forEach(button => {
+        button.addEventListener("click", () =>{
+            const brand = button.getAttribute("button-brand")
+            if(brand){
+                url.searchParams.set("brand", brand)
+            }
+            else{
+                url.searchParams.delete("brand")
+            }
+            
+            window.location.href = url.href
+        })
+    })
+}
+
+//Dark Light Mode
+const buttonLightMode = document.querySelector(".light-mode")
+const buttonDarkMode = document.querySelector(".dark-mode")
+const body = document.querySelector("body")
+
+const loadPage = localStorage.getItem("mode")
+if(loadPage){
+    body.classList.toggle(loadPage)
+    buttonDarkMode.classList.add("button-mode-click")
+    buttonLightMode.classList.remove("button-mode-click")
+}
+
+console.log(loadPage)
+
+buttonDarkMode.addEventListener("click", () => {
+    buttonDarkMode.classList.add("button-mode-click")
+    buttonLightMode.classList.remove("button-mode-click")
+    const currentMode = localStorage.getItem("mode")
+    if(!currentMode){
+        localStorage.setItem("mode", "dark")
+    }
+    body.classList.add("dark")
+})
+buttonLightMode.addEventListener("click", () => {
+    buttonDarkMode.classList.remove("button-mode-click")
+    buttonLightMode.classList.add("button-mode-click")
+    const currentMode = localStorage.getItem("mode")
+    if(currentMode){
+        localStorage.setItem("mode", "")
+    }
+    body.classList.remove("dark")
+})

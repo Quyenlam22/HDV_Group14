@@ -1,0 +1,88 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+
+block main 
+    h1 Danh sách sản phẩm
+
+    .card.mb-3 
+        .card-header Bộ lọc và tìm kiếm
+        .card-body
+            .row 
+                .col-6
+                   +filter-status(filterStatus)
+                .col-6
+                    +search(keyword)
+
+    .card.mb-3 
+        .card-header Danh sách
+            .card-body
+                table(
+                    class="table table-hover table-sm"
+                    checkbox-multi
+                )
+                    thead 
+                        tr 
+                            th 
+                                input(type="checkbox" name="checkall")
+                            th STT 
+                            th Hình ảnh
+                            th Tiêu đề
+                            th Giá
+                            th Vị trí
+                            th Trạng thái
+                            th Hoạt động
+
+                    tbody
+                        each item, index in products
+                            tr
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
+                                td #{index + 1}
+                                td
+                                    img(
+                                        src=item.image
+                                        alt=item.title
+                                        width="80px"
+                                        height="auto"
+                                        )
+                                td #{item.title}
+                                td #{item.oldPrice}$
+                                td
+                                    input(
+                                        type="number"
+                                        value = item.position
+                                        style="width: 60px"
+                                        min="1"
+                                        name="position"
+                                    )
+                                td
+                                    if(item.status == "active")
+                                        a(
+                                            href="javascript:;" 
+                                            data-status=item.status
+                                            data-id=item.id
+                                            button-change-status
+                                            class="badge badge-success"
+                                        ) Hoạt động 
+                                    else
+                                        a(
+                                            href="#javascript:" 
+                                            data-status=item.status
+                                            data-id=item.id
+                                            button-change-status
+                                            class="badge badge-danger"
+                                        ) Dừng hoạt động 
+                                td 
+                                    button(class="btn btn-warning btn-sm") Sửa 
+                                    button(
+                                        class="btn btn-danger btn-sm ml-1"
+                                        button-deleted
+                                        data-id=item.id
+                                        ) Xóa
+
+    script(src="/admin/js/product.js") 

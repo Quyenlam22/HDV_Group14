@@ -1,0 +1,6 @@
+mixin filter-brand(filterBrand)
+    each item in filterBrand
+        button(
+            class=`btn btn-sm ml-1 btn-outline-success ${item.class}`
+            button-brand=item.brand
+        ) #{item.name}
