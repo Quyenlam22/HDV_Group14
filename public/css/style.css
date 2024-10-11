@@ -120,3 +120,18 @@
     background: #333;
     color: white;
 }
+
+/* Order Quantity */
+.order-quantity{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+}
+.btn-light{
+    border: 1px solid #ddd;
+}
+.order-value{
+    text-align: center;
+    width: 45px;
+    padding-right: 0px;
+}

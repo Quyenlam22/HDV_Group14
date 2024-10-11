@@ -30,6 +30,23 @@ block main
                 )
               .inner-content 
                 h3.inner-title #{item.title}
-                .inner-price-new #{item.newPrice}$
-                .inner-price-old #{item.oldPrice}$
-                .inner-discount -#{item.discountPercent}%
+                .row
+                  .col-7
+                    .inner-price-new #{item.newPrice}$
+                    .inner-price-old #{item.oldPrice}$
+                    .inner-discount -#{item.discountPercent}%
+                  .col-5
+                    .order-quantity
+                      button(class="btn btn-light"
+                       button-reduce
+                      ) -
+                      input(
+                        class="order-value form-control"
+                        type='number'
+                        value='1'
+                        min='1'
+                        readonly=''
+                        )
+                      button(class="btn btn-light"
+                       button-increase
+                      ) +

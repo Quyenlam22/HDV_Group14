@@ -1,11 +1,15 @@
-module.exports = (query) =>{
+module.exports = (query) => {
     let objectSearch = {
-        keyword: ""
+        keyword: "",
+        regex: ""
     }
+
     if(query.keyword){
         objectSearch.keyword = query.keyword
-        const regex = new RegExp(objectSearch.keyword, "i")
-        objectSearch.regex = regex
+
+        const regex = new RegExp(objectSearch.keyword, "i");
+        objectSearch.regex = regex;
     }
+
     return objectSearch
 }

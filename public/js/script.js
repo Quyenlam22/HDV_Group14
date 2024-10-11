@@ -76,3 +76,22 @@ buttonLightMode.addEventListener("click", () => {
     }
     body.classList.remove("dark")
 })
+
+//Order Quantity
+const orderQuantity = document.querySelector(".order-quantity")
+if(orderQuantity){
+    const buttonReduce = orderQuantity.querySelector("[button-reduce]");
+    const buttonincrease = orderQuantity.querySelector("[button-increase]");
+    const inputOrder = orderQuantity.querySelector(".order-value")
+    buttonReduce.addEventListener("click", (e) => {
+        if(inputOrder.value <= 1){
+            alert("Tối thiểu là 1 sản phẩm")
+            return;
+        }
+
+        inputOrder.value = parseInt(inputOrder.value) - 1
+    })
+    buttonincrease.addEventListener("click", (e) => {
+        inputOrder.value = parseInt(inputOrder.value) + 1
+    })
+}
