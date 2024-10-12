@@ -1,6 +1,6 @@
 const Product = require("../../models/product.model")
-const searchHelper = require("../../helpersClient/search")
-const filterBrandHelper = require("../../helpersClient/filterBrand")
+const searchHelper = require("../../helpers/client/search")
+const filterBrandHelper = require("../../helpers/client/filterBrand")
 
 module.exports.index = async (req, res) => {
     let find = {

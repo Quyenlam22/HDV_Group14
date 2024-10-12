@@ -1,7 +1,7 @@
 const Product = require("../../models/product.model")
 
-const filterStatusHelper = require("../../helpers/filterStatus")
-const searchHelper = require("../../helpers/search")
+const filterStatusHelper = require("../../helpers/admin/filterStatus")
+const searchHelper = require("../../helpers/admin/search")
 
 module.exports.index = async (req, res) => {
 
