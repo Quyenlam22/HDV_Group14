@@ -3,6 +3,11 @@ const methodOverride = require('method-override')
 const route = require('./routes/client/index.route')
 const routeAdmin = require('./routes/admin/index.route')
 
+//Flash
+const flash = require('express-flash')
+const cookieParser = require("cookie-parser")
+const session = require("express-session")
+
 //Code hidden Github
 require('dotenv').config()
 
@@ -23,6 +28,11 @@ app.use(express.static("public"))
 //Method Override
 // Override with POST having ?_method=DELETE
 app.use(methodOverride('_method'))
+
+//Flash message
+app.use(cookieParser('ABCDEF'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin

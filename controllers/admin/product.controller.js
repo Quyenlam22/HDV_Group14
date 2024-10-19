@@ -35,15 +35,26 @@ module.exports.index = async (req, res) => {
 
 // [PATCH] /admin/products/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
-    const id = req.params.id
-    const status = req.params.status
-    await Product.updateOne({_id: id}, {status: status})
+    try{
+        const id = req.params.id
+        const status = req.params.status
+        await Product.updateOne({_id: id}, {status: status})
+        req.flash('success', 'Cập nhật trạng thái sản phẩm thành công !')
+    }catch(error){
+        req.flash('error', 'Cập nhật trạng thái sản phẩm thất bại !')
+    }
+    
     res.redirect("back")
 }
 
 // [PATCH] /admin/products/delete-item/:id
 module.exports.deleteItem = async (req, res) => {
-    const id = req.params.id
-    await Product.updateOne({_id: id}, {deleted: true})
+    try {
+        const id = req.params.id
+        await Product.updateOne({_id: id}, {deleted: true})
+        req.flash('success', 'Xóa sản phẩm thành công !')
+    } catch (error) {
+        req.flash('error', 'Xóa sản phẩm thất bại !')
+    }
     res.redirect("back")
 }

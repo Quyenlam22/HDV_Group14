@@ -38,4 +38,45 @@ if(formSearch){
     })
 }
 
-//Change Multi
+//CheckBox Multi
+const table = document.querySelector("[checkbox-multi]")
+if(table){
+    const checkAll = table.querySelector("[name=checkall]")
+    const inputsId  = table.querySelectorAll("[name=id]")
+    checkAll.addEventListener("click", () => {
+        if(checkAll.checked == true){
+            inputsId.forEach(id => {
+                id.checked = true
+            })
+        }
+        else{
+            inputsId.forEach(id => {
+                id.checked = false
+            })
+        }
+    })
+
+    inputsId.forEach(input => {
+        input.addEventListener("click", () => {
+            const inputsChecked = document.querySelectorAll("[name=id]:checked")
+            if(inputsChecked.length === inputsId.length){
+                checkAll.checked = true
+            }
+            else    
+                checkAll.checked = false
+        })
+    })
+}
+
+//Show alert
+const showAlert = document.querySelector("[show-alert]")
+if(showAlert){
+    const time = parseInt(showAlert.getAttribute("data-time"))
+    const closeAlert = document.querySelector("[close-alert]")
+    closeAlert.addEventListener("click", () => {
+        showAlert.classList.add("alert-hidden")
+    })
+    setTimeout(() => {
+        showAlert.classList.add("alert-hidden")
+    }, time)
+}
