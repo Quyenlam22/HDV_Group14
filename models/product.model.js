@@ -1,11 +1,10 @@
-const { type } = require("express/lib/response");
 const mongoose = require("mongoose")
 const productSchema = new mongoose.Schema({
     title: String,
-    oldPrice: Number,
-    discountPercent: Number,
     description: String,
-    category: String,
+    price: Number,
+    discountPercentage: Number,
+    stock: Number,
     image: String,
     brand: String,
     position: Number,
@@ -14,6 +13,8 @@ const productSchema = new mongoose.Schema({
       type: Boolean,
       default: false
     }
+  }, {
+    timestamps: true
   });
 const Product = mongoose.model('Product', productSchema, "smartphones");
 

@@ -8,6 +8,9 @@ const flash = require('express-flash')
 const cookieParser = require("cookie-parser")
 const session = require("express-session")
 
+//Body Parser
+const bodyParser = require('body-parser')
+
 //Code hidden Github
 require('dotenv').config()
 
@@ -33,6 +36,10 @@ app.use(methodOverride('_method'))
 app.use(cookieParser('ABCDEF'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+//Body Parser
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
 
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin

@@ -1,4 +1,5 @@
 const Product = require("../../models/product.model")
+const systemConfig = require("../../config/system")
 
 const filterStatusHelper = require("../../helpers/admin/filterStatus")
 const searchHelper = require("../../helpers/admin/search")
@@ -57,4 +58,41 @@ module.exports.deleteItem = async (req, res) => {
         req.flash('error', 'Xóa sản phẩm thất bại !')
     }
     res.redirect("back")
+}
+
+// [GET] /admin/products/create
+module.exports.create = async (req, res) => {
+    res.render("admin/page/products/create.pug", {
+        pageTitle: "Thêm mới sản phẩm"
+    })
+}
+
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseFloat(req.body.price)
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+
+    if(req.body.position == ''){
+        const countProducts = await Product.countDocuments()
+        req.body.position = countProducts + 1
+    }
+    else{
+        req.body.position = parseInt(req.body.position)
+    }
+
+    if (req.file) {
+        req.body.image = `/uploads/${req.file.filename}`
+    }
+
+    try {
+        const product = new Product(req.body)
+        await product.save()
+
+        req.flash("success", `Thêm sản phẩm thành công!`)
+    } catch (error) {
+        req.flash("error", `Thêm sản phẩm thất bại!`)
+    }
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`)
 }
