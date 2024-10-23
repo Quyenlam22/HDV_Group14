@@ -14,6 +14,8 @@ route.patch("/change-status/:id/:status", productController.changeStatus)
 
 route.patch("/delete-item/:id", productController.deleteItem)
 
+route.patch("/change-multi", productController.changeMulti)
+
 route.get("/create", productController.create)
 
 route.post("/create", upload.single('image'), productController.createPost)

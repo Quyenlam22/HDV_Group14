@@ -1,15 +1,14 @@
 //Filter Status
 const buttonStatus = document.querySelectorAll("[button-status]")
-if(buttonStatus){
+if (buttonStatus) {
     let url = new URL(window.location.href)
 
     buttonStatus.forEach(button => {
         button.addEventListener("click", () => {
             const status = button.getAttribute("button-status")
-            if(status){
+            if (status) {
                 url.searchParams.set("status", status)
-            }
-            else{
+            } else {
                 url.searchParams.delete("status")
             }
 
@@ -20,17 +19,16 @@ if(buttonStatus){
 
 //Search 
 const formSearch = document.querySelector("#form-search")
-if(formSearch){
+if (formSearch) {
     let url = new URL(window.location.href)
-    
+
     formSearch.addEventListener("submit", (e) => {
         e.preventDefault()
 
         const keyword = e.target.elements.keyword.value;
-        if(keyword){
+        if (keyword) {
             url.searchParams.set("keyword", keyword)
-        }
-        else{
+        } else {
             url.searchParams.delete("keyword")
         }
 
@@ -40,16 +38,15 @@ if(formSearch){
 
 //CheckBox Multi
 const table = document.querySelector("[checkbox-multi]")
-if(table){
+if (table) {
     const checkAll = table.querySelector("[name=checkall]")
-    const inputsId  = table.querySelectorAll("[name=id]")
+    const inputsId = table.querySelectorAll("[name=id]")
     checkAll.addEventListener("click", () => {
-        if(checkAll.checked == true){
+        if (checkAll.checked == true) {
             inputsId.forEach(id => {
                 id.checked = true
             })
-        }
-        else{
+        } else {
             inputsId.forEach(id => {
                 id.checked = false
             })
@@ -59,10 +56,9 @@ if(table){
     inputsId.forEach(input => {
         input.addEventListener("click", () => {
             const inputsChecked = document.querySelectorAll("[name=id]:checked")
-            if(inputsChecked.length === inputsId.length){
+            if (inputsChecked.length === inputsId.length) {
                 checkAll.checked = true
-            }
-            else    
+            } else
                 checkAll.checked = false
         })
     })
@@ -70,7 +66,7 @@ if(table){
 
 //Show alert
 const showAlert = document.querySelector("[show-alert]")
-if(showAlert){
+if (showAlert) {
     const time = parseInt(showAlert.getAttribute("data-time"))
     const closeAlert = document.querySelector("[close-alert]")
     closeAlert.addEventListener("click", () => {
@@ -83,11 +79,60 @@ if(showAlert){
 
 //Upload Image
 const uploadImage = document.querySelector("[upload-image]")
-if(uploadImage){
+if (uploadImage) {
     const uploadImageInput = uploadImage.querySelector("[upload-image-input]")
     const uploadImagePreview = uploadImage.querySelector("[upload-image-preview]")
-    uploadImageInput.addEventListener("change", () => {
-        const [file] = uploadImageInput.files
-        uploadImagePreview.src = URL.createObjectURL(file)
+    const closeImage = uploadImage.querySelector("[close-image]")
+    uploadImageInput.addEventListener("change", (e) => {
+        const file = e.target.files[0]
+        if (file) {
+            uploadImagePreview.src = URL.createObjectURL(file)
+            closeImage.style.display = "block"
+
+            closeImage.addEventListener("click", () => {
+                uploadImagePreview.src = ""
+                uploadImageInput.value = ""
+                closeImage.style.display = "none"
+            })
+        }
+    })
+}
+
+//Change Multi Status
+const formChangeMulti = document.querySelector('[form-change-multi]')
+if (formChangeMulti) {
+    formChangeMulti.addEventListener("submit", (e) => {
+        e.preventDefault()
+        const inputsChecked = document.querySelectorAll("input[name='id']:checked")
+
+        const typeChange = e.target.elements.type.value
+
+        if(typeChange == "delete-all"){
+            const isConfirm = confirm("Đồng ý xóa?")
+            if(!isConfirm){
+                return
+            }
+        }
+
+        if (inputsChecked.length > 0) {
+            let listIds = []
+            const inputIds = formChangeMulti.querySelector("[name='ids']")
+            
+            inputsChecked.forEach(input => {
+                if(typeChange == "change-position"){
+                    const position = input.closest("tr").querySelector("input[name='position']").value
+                    listIds.push(`${input.value}-${position}`)
+                }  
+                else{
+                    listIds.push(input.value)
+                }
+            })
+
+            inputIds.value = listIds.join(", ")
+            formChangeMulti.submit()
+        }
+        else{
+            alert("Vui lòng chọn ít nhất một bản ghi!")
+        }
     })
 }
