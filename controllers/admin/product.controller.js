@@ -25,6 +25,7 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex
 
     const products = await Product.find(find)
+                            .sort({position: "desc"})
 
     res.render("admin/page/products/index.pug", {
         pageTitle: "Trang sản phẩm",
@@ -154,4 +155,39 @@ module.exports.changeMulti = async (req, res) => {
         req.flash('error', 'Cập nhật thất bại !')
     }
     res.redirect("back")
+}
+
+// [GET] /admin/products/edit
+module.exports.edit = async (req, res) => {
+    let find = {
+        _id: req.params.id
+    }
+    const product = await Product.findOne(find)
+
+    res.render("admin/page/products/edit.pug", {
+        pageTitle: "Chỉnh sửa sản phẩm",
+        product: product
+    })
+}
+
+// [POST] /admin/products/edit
+module.exports.editPatch = async (req, res) => {
+    req.body.price = parseFloat(req.body.price)
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
+
+    req.body.position = parseInt(req.body.position)
+
+    if (req.file) {
+        req.body.image = `/uploads/${req.file.filename}`
+    }
+
+    try {
+        await Product.updateOne({_id: req.params.id}, req.body)
+        req.flash("success", `Thêm sản phẩm thành công!`)
+    } catch (error) {
+        req.flash("error", `Thêm sản phẩm thất bại!`)
+    }
+
+    res.redirect(`back`)
 }

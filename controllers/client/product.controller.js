@@ -25,6 +25,7 @@ module.exports.index = async (req, res) => {
 
     // Call database 
     const products = await Product.find(find)
+                            .sort({position: "asc"})
     
     const newProducts = products.map(item => {
         item.newPrice = (item.price * (100 - item.discountPercentage) / 100).toFixed(1)

@@ -14,6 +14,9 @@ const bodyParser = require('body-parser')
 //Code hidden Github
 require('dotenv').config()
 
+// pathMCE
+const path = require("path")
+
 const app = express()
 const port = process.env.PORT
 
@@ -43,6 +46,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+
+//Tiny MCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 route(app)
 routeAdmin(app)

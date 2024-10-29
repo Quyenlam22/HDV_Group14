@@ -20,4 +20,9 @@ route.get("/create", productController.create)
 
 route.post("/create", upload.single('image'), productController.createPost)
 
+route.get("/edit/:id", productController.edit)
+
+route.patch("/edit/:id", upload.single('image'), productController.editPatch)
+
+
 module.exports = route

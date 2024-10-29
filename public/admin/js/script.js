@@ -136,3 +136,15 @@ if (formChangeMulti) {
         }
     })
 }
+
+// Edit Product
+const selectBrand = document.querySelector('#brand')
+if(selectBrand){
+    const brand = selectBrand.getAttribute("brand")
+    const options = selectBrand.querySelectorAll("option")
+    options.forEach(option => {
+        if(option.value == brand){
+            option.selected = true
+        }
+    })
+}
