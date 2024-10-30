@@ -1,639 +1,432 @@
 extends ../../layouts/default.pug
 
 block main
-  h1 Trang tổng quan
-    //- .pagetitle
-    //-   h1 Dashboard
-    //-   nav
-    //-     ol.breadcrumb
-    //-       li.breadcrumb-item
-    //-         a(href=`${prefixAdmin}/dashboard`) Home
-    //-       li.breadcrumb-item.active Dashboard
-    //- // End Page Title
-    //- section.section.dashboard
-    //-   .row
-    //-     // Left side columns
-    //-     .col-lg-8
-    //-       .row
-    //-         // Sales Card
-    //-         .col-xxl-4.col-md-6
-    //-           .card.info-card.sales-card
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body
-    //-               h5.card-title
-    //-                 | Sales
-    //-                 span | Today
-    //-               .d-flex.align-items-center
-    //-                 .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
-    //-                   i.bi.bi-cart
-    //-                 .ps-3
-    //-                   h6 145
-    //-                   span.text-success.small.pt-1.fw-bold 12%
-    //-                   span.text-muted.small.pt-2.ps-1 increase
-    //-         // End Sales Card
-    //-         // Revenue Card
-    //-         .col-xxl-4.col-md-6
-    //-           .card.info-card.revenue-card
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body
-    //-               h5.card-title
-    //-                 | Revenue
-    //-                 span | This Month
-    //-               .d-flex.align-items-center
-    //-                 .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
-    //-                   i.bi.bi-currency-dollar
-    //-                 .ps-3
-    //-                   h6 $3,264
-    //-                   span.text-success.small.pt-1.fw-bold 8%
-    //-                   span.text-muted.small.pt-2.ps-1 increase
-    //-         // End Revenue Card
-    //-         // Customers Card
-    //-         .col-xxl-4.col-xl-12
-    //-           .card.info-card.customers-card
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body
-    //-               h5.card-title
-    //-                 | Customers
-    //-                 span | This Year
-    //-               .d-flex.align-items-center
-    //-                 .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
-    //-                   i.bi.bi-people
-    //-                 .ps-3
-    //-                   h6 1244
-    //-                   span.text-danger.small.pt-1.fw-bold 12%
-    //-                   span.text-muted.small.pt-2.ps-1 decrease
-    //-         // End Customers Card
-    //-         // Reports
-    //-         .col-12
-    //-           .card
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body
-    //-               h5.card-title
-    //-                 | Reports
-    //-                 span /Today
-    //-               // Line Chart
-    //-               #reportsChart
-    //-               script.
-    //-                 document.addEventListener("DOMContentLoaded", () => {
-    //-                   new ApexCharts(document.querySelector("#reportsChart"), {
-    //-                   series: [{
-    //-                   name: 'Sales',
-    //-                   data: [31, 40, 28, 51, 42, 82, 56],
-    //-                   }, {
-    //-                   name: 'Revenue',
-    //-                   data: [11, 32, 45, 32, 34, 52, 41]
-    //-                   }, {
-    //-                   name: 'Customers',
-    //-                   data: [15, 11, 32, 18, 9, 24, 11]
-    //-                   }],
-    //-                   chart: {
-    //-                   height: 350,
-    //-                   type: 'area',
-    //-                   toolbar: {
-    //-                   show: false
-    //-                   },
-    //-                   },
-    //-                   markers: {
-    //-                   size: 4
-    //-                   },
-    //-                   colors: ['#4154f1', '#2eca6a', '#ff771d'],
-    //-                   fill: {
-    //-                   type: "gradient",
-    //-                   gradient: {
-    //-                   shadeIntensity: 1,
-    //-                   opacityFrom: 0.3,
-    //-                   opacityTo: 0.4,
-    //-                   stops: [0, 90, 100]
-    //-                   }
-    //-                   },
-    //-                   dataLabels: {
-    //-                   enabled: false
-    //-                   },
-    //-                   stroke: {
-    //-                   curve: 'smooth',
-    //-                   width: 2
-    //-                   },
-    //-                   xaxis: {
-    //-                   type: 'datetime',
-    //-                   categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-    //-                   },
-    //-                   tooltip: {
-    //-                   x: {
-    //-                   format: 'dd/MM/yy HH:mm'
-    //-                   },
-    //-                   }
-    //-                   }).render();
-    //-                   });
-    //-               // End Line Chart
-    //-         // End Reports
-    //-         // Recent Sales
-    //-         .col-12
-    //-           .card.recent-sales.overflow-auto
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body
-    //-               h5.card-title
-    //-                 | Recent Sales
-    //-                 span | Today
-    //-               table.table.table-borderless.datatable
-    //-                 thead
-    //-                   tr
-    //-                     th(scope="col") #
-    //-                     th(scope="col") Customer
-    //-                     th(scope="col") Product
-    //-                     th(scope="col") Price
-    //-                     th(scope="col") Status
-    //-                 tbody
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#") #2457
-    //-                     td Brandon Jacob
-    //-                     td
-    //-                       a.text-primary(href="#") At praesentium minu
-    //-                     td $64
-    //-                     td
-    //-                       span.badge.bg-success Approved
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#") #2147
-    //-                     td Bridie Kessler
-    //-                     td
-    //-                       a.text-primary(href="#") Blanditiis dolor omnis similique
-    //-                     td $47
-    //-                     td
-    //-                       span.badge.bg-warning Pending
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#") #2049
-    //-                     td Ashleigh Langosh
-    //-                     td
-    //-                       a.text-primary(href="#") At recusandae consectetur
-    //-                     td $147
-    //-                     td
-    //-                       span.badge.bg-success Approved
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#") #2644
-    //-                     td Angus Grady
-    //-                     td
-    //-                       a.text-primar(href="#") Ut voluptatem id earum et
-    //-                     td $67
-    //-                     td
-    //-                       span.badge.bg-danger Rejected
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#") #2644
-    //-                     td Raheem Lehner
-    //-                     td
-    //-                       a.text-primary(href="#") Sunt similique distinctio
-    //-                     td $165
-    //-                     td
-    //-                       span.badge.bg-success Approved
-    //-         // End Recent Sales
-    //-         // Top Selling
-    //-         .col-12
-    //-           .card.top-selling.overflow-auto
-    //-             .filter
-    //-               a.icon(
-    //-                 data-bs-toggle="dropdown" 
-    //-                 href="#"
-    //-                 )
-    //-                 i.bi.bi-three-dots
-    //-               ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-                 li.dropdown-header.text-start
-    //-                   h6 Filter
-    //-                 li
-    //-                   a.dropdown-item(href="#") Today
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Month
-    //-                 li
-    //-                   a.dropdown-item(href="#") This Year
-    //-             .card-body.pb-0
-    //-               h5.card-title
-    //-                 | Top Selling
-    //-                 span | Today
-    //-               table.table.table-borderless
-    //-                 thead
-    //-                   tr
-    //-                     th(scope="col") Preview
-    //-                     th(scope="col") Product
-    //-                     th(scope="col") Price
-    //-                     th(scope="col") Sold
-    //-                     th(scope="col") Revenue
-    //-                 tbody
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#")
-    //-                         img(
-    //-                           alt="" 
-    //-                           src="/assets/img/product-1.jpg"
-    //-                           )
-    //-                     td
-    //-                       a.text-primary.fw-bold(href="#") Ut inventore ipsa voluptas nulla
-    //-                     td $64
-    //-                     td.fw-bold 124
-    //-                     td $5,828
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#")
-    //-                         img(
-    //-                           alt="" 
-    //-                           src="/assets/img/product-2.jpg"
-    //-                           )
-    //-                     td
-    //-                       a.text-primary.fw-bold(href="#") Exercitationem similique doloremque
-    //-                     td $46
-    //-                     td.fw-bold 98
-    //-                     td $4,508
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#")
-    //-                         img(
-    //-                           alt="" 
-    //-                           src="/assets/img/product-3.jpg"
-    //-                           )
-    //-                     td
-    //-                       a.text-primary.fw-bold(href="#") Doloribus nisi exercitationem
-    //-                     td $59
-    //-                     td.fw-bold 74
-    //-                     td $4,366
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#")
-    //-                         img(
-    //-                           alt="" 
-    //-                           src="/assets/img/product-4.jpg"
-    //-                           )
-    //-                     td
-    //-                       a.text-primary.fw-bold(href="#") Officiis quaerat sint rerum error
-    //-                     td $32
-    //-                     td.fw-bold 63
-    //-                     td $2,016
-    //-                   tr
-    //-                     th(scope="row")
-    //-                       a(href="#")
-    //-                         img(
-    //-                           alt="" 
-    //-                           src="/assets/img/product-5.jpg"
-    //-                           )
-    //-                     td
-    //-                       a.text-primary.fw-bold(href="#") Sit unde debitis delectus repellendus
-    //-                     td $79
-    //-                     td.fw-bold 41
-    //-                     td $3,239
-    //-         // End Top Selling
-    //-     // End Left side columns
-    //-     // Right side columns
-    //-     .col-lg-4
-    //-       // Recent Activity
-    //-       .card
-    //-         .filter
-    //-           a.icon(
-    //-             data-bs-toggle="dropdown" 
-    //-             href="#"
-    //-             )
-    //-             i.bi.bi-three-dots
-    //-           ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-             li.dropdown-header.text-start
-    //-               h6 Filter
-    //-             li
-    //-               a.dropdown-item(href="#") Today
-    //-             li
-    //-               a.dropdown-item(href="#") This Month
-    //-             li
-    //-               a.dropdown-item(href="#") This Year
-    //-         .card-body
-    //-           h5.card-title
-    //-             | Recent Activity
-    //-             span | Today
-    //-           .activity
-    //-             .activity-item.d-flex
-    //-               .activite-label 32 min
-    //-               i.bi.bi-circle-fill.activity-badge.text-success.align-self-start
-    //-               .activity-content
-    //-                 | Quia quae rerum
-    //-                 a.fw-bold.text-dark(href="#") explicabo officiis
-    //-                 | beatae
-    //-             // End activity item
-    //-             .activity-item.d-flex
-    //-               .activite-label 56 min
-    //-               i.bi.bi-circle-fill.activity-badge.text-danger.align-self-start
-    //-               .activity-content Voluptatem blanditiis blanditiis eveniet
-    //-             // End activity item
-    //-             .activity-item.d-flex
-    //-               .activite-label 2 hrs
-    //-               i.bi.bi-circle-fill.activity-badge.text-primary.align-self-start
-    //-               .activity-content Voluptates corrupti molestias voluptatem
-    //-             // End activity item
-    //-             .activity-item.d-flex
-    //-               .activite-label 1 day
-    //-               i.bi.bi-circle-fill.activity-badge.text-info.align-self-start
-    //-               .activity-content
-    //-                 | Tempore autem saepe
-    //-                 a.fw-bold.text-dark(href="#") occaecati voluptatem
-    //-                 | tempore
-    //-             // End activity item
-    //-             .activity-item.d-flex
-    //-               .activite-label 2 days
-    //-               i.bi.bi-circle-fill.activity-badge.text-warning.align-self-start
-    //-               .activity-content Est sit eum reiciendis exercitationem
-    //-             // End activity item
-    //-             .activity-item.d-flex
-    //-               .activite-label 4 weeks
-    //-               i.bi.bi-circle-fill.activity-badge.text-muted.align-self-start
-    //-               .activity-content Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-    //-             // End activity item
-    //-       // End Recent Activity
-    //-       // Budget Report
-    //-       .card
-    //-         .filter
-    //-           a.icon(
-    //-             data-bs-toggle="dropdown" 
-    //-             href="#"
-    //-             )
-    //-             i.bi.bi-three-dots
-    //-           ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-             li.dropdown-header.text-start
-    //-               h6 Filter
-    //-             li
-    //-               a.dropdown-item(href="#") Today
-    //-             li
-    //-               a.dropdown-item(href="#") This Month
-    //-             li
-    //-               a.dropdown-item(href="#") This Year
-    //-         .card-body.pb-0
-    //-           h5.card-title
-    //-             | Budget Report
-    //-             span | This Month
-    //-           #budgetChart.echart(style="min-height: 400px;")
-    //-           script.
-    //-             document.addEventListener("DOMContentLoaded", () => {
-    //-               var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-    //-               legend: {
-    //-               data: ['Allocated Budget', 'Actual Spending']
-    //-               },
-    //-               radar: {
-    //-               // shape: 'circle',
-    //-               indicator: [{
-    //-               name: 'Sales',
-    //-               max: 6500
-    //-               },
-    //-               {
-    //-               name: 'Administration',
-    //-               max: 16000
-    //-               },
-    //-               {
-    //-               name: 'Information Technology',
-    //-               max: 30000
-    //-               },
-    //-               {
-    //-               name: 'Customer Support',
-    //-               max: 38000
-    //-               },
-    //-               {
-    //-               name: 'Development',
-    //-               max: 52000
-    //-               },
-    //-               {
-    //-               name: 'Marketing',
-    //-               max: 25000
-    //-               }
-    //-               ]
-    //-               },
-    //-               series: [{
-    //-               name: 'Budget vs spending',
-    //-               type: 'radar',
-    //-               data: [{
-    //-               value: [4200, 3000, 20000, 35000, 50000, 18000],
-    //-               name: 'Allocated Budget'
-    //-               },
-    //-               {
-    //-               value: [5000, 14000, 28000, 26000, 42000, 21000],
-    //-               name: 'Actual Spending'
-    //-               }
-    //-               ]
-    //-               }]
-    //-               });
-    //-               });
-    //-       // End Budget Report
-    //-       // Website Traffic
-    //-       .card
-    //-         .filter
-    //-           a.icon(
-    //-             data-bs-toggle="dropdown" 
-    //-             href="#"
-    //-             )
-    //-             i.bi.bi-three-dots
-    //-           ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-             li.dropdown-header.text-start
-    //-               h6 Filter
-    //-             li
-    //-               a.dropdown-item(href="#") Today
-    //-             li
-    //-               a.dropdown-item(href="#") This Month
-    //-             li
-    //-               a.dropdown-item(href="#") This Year
-    //-         .card-body.pb-0
-    //-           h5.card-title
-    //-             | Website Traffic
-    //-             span | Today
-    //-           #trafficChart.echart(style="min-height: 400px;")
-    //-           script.
-    //-             document.addEventListener("DOMContentLoaded", () => {
-    //-               echarts.init(document.querySelector("#trafficChart")).setOption({
-    //-               tooltip: {
-    //-               trigger: 'item'
-    //-               },
-    //-               legend: {
-    //-               top: '5%',
-    //-               left: 'center'
-    //-               },
-    //-               series: [{
-    //-               name: 'Access From',
-    //-               type: 'pie',
-    //-               radius: ['40%', '70%'],
-    //-               avoidLabelOverlap: false,
-    //-               label: {
-    //-               show: false,
-    //-               position: 'center'
-    //-               },
-    //-               emphasis: {
-    //-               label: {
-    //-               show: true,
-    //-               fontSize: '18',
-    //-               fontWeight: 'bold'
-    //-               }
-    //-               },
-    //-               labelLine: {
-    //-               show: false
-    //-               },
-    //-               data: [{
-    //-               value: 1048,
-    //-               name: 'Search Engine'
-    //-               },
-    //-               {
-    //-               value: 735,
-    //-               name: 'Direct'
-    //-               },
-    //-               {
-    //-               value: 580,
-    //-               name: 'Email'
-    //-               },
-    //-               {
-    //-               value: 484,
-    //-               name: 'Union Ads'
-    //-               },
-    //-               {
-    //-               value: 300,
-    //-               name: 'Video Ads'
-    //-               }
-    //-               ]
-    //-               }]
-    //-               });
-    //-               });
-    //-       // End Website Traffic
-    //-       // News & Updates Traffic
-    //-       .card
-    //-         .filter
-    //-           a.icon(
-    //-             data-bs-toggle="dropdown" 
-    //-             href="#"
-    //-             )
-    //-             i.bi.bi-three-dots
-    //-           ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-    //-             li.dropdown-header.text-start
-    //-               h6 Filter
-    //-             li
-    //-               a.dropdown-item(href="#") Today
-    //-             li
-    //-               a.dropdown-item(href="#") This Month
-    //-             li
-    //-               a.dropdown-item(href="#") This Year
-    //-         .card-body.pb-0
-    //-           h5.card-title
-    //-             | News & Updates
-    //-             span | Today
-    //-           .news
-    //-             .post-item.clearfix
-    //-               img(
-    //-                 alt="" 
-    //-                 src="/assets/img/news-1.jpg"
-    //-                 )
-    //-               h4
-    //-                 a(href="#") Nihil blanditiis at in nihil autem
-    //-               p Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...
-    //-             .post-item.clearfix
-    //-               img(
-    //-                 alt="" 
-    //-                 src="/assets/img/news-2.jpg"
-    //-                 )
-    //-               h4
-    //-                 a(href="#") Quidem autem et impedit
-    //-               p Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...
-    //-             .post-item.clearfix
-    //-               img(
-    //-                 alt="" 
-    //-                 src="/assets/img/news-3.jpg"
-    //-                 )
-    //-               h4
-    //-                 a(href="#") Id quia et et ut maxime similique occaecati ut
-    //-               p Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...
-    //-             .post-item.clearfix
-    //-               img(
-    //-                 alt="" 
-    //-                 src="/assets/img/news-4.jpg"
-    //-                 )
-    //-               h4
-    //-                 a(href="#") Laborum corporis quo dara net para
-    //-               p Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...
-    //-             .post-item.clearfix
-    //-               img(
-    //-                 alt="" 
-    //-                 src="/assets/img/news-5.jpg"
-    //-                 )
-    //-               h4
-    //-                 a(href="#") Et dolores corrupti quae illo quod dolor
-    //-               p Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...
-    //-           // End sidebar recent posts
-    //-       // End News & Updates
-    //-     // End Right side columns
-    //-   // Vendor JS Files
-    //-   script(src="/assets/vendor/apexcharts/apexcharts.min.js")
-    //-   script(src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js")
-    //-   script(src="/assets/vendor/chart.js/chart.umd.js")
-    //-   script(src="/assets/vendor/echarts/echarts.min.js")
-    //-   script(src="/assets/vendor/quill/quill.js")
-    //-   script(src="/assets/vendor/simple-datatables/simple-datatables.js")
-    //-   script(src="/assets/vendor/tinymce/tinymce.min.js")
-    //-   script(src="/assets/vendor/php-email-form/validate.js")
-    //-   // Template Main JS File
-    //-   script(src="/assets/js/main.js")
+  h1 Dashboard
+    .pagetitle
+      nav
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href='/admin/dashboard') Home
+          li.breadcrumb-item.active Dashboard
+    // End Page Title
+    section.section.dashboard
+      .row
+        // Left side columns
+        .col-lg-8
+          .row
+            // Sales Card
+            .col-xxl-4.col-md-6
+              .card.info-card.sales-card
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body
+                  h5.card-title
+                    | Sales 
+                    span | Today
+                  .d-flex.align-items-center
+                    .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
+                      i.bi.bi-cart
+                    .ps-3
+                      h6 145
+                      span.text-success.small.pt-1.fw-bold 12%
+                      |  
+                      span.text-muted.small.pt-1.ps-1 increase
+            // End Sales Card
+            // Revenue Card
+            .col-xxl-4.col-md-6
+              .card.info-card.revenue-card
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body
+                  h5.card-title
+                    | Revenue 
+                    span | This Month
+                  .d-flex.align-items-center
+                    .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
+                      i.bi.bi-currency-dollar
+                    .ps-3
+                      h6 $3,264
+                      span.text-success.small.pt-1.fw-bold 8%
+                      |  
+                      span.text-muted.small.pt-1.ps-1 increase
+            // End Revenue Card
+            // Customers Card
+            .col-xxl-4.col-xl-12
+              .card.info-card.customers-card
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body
+                  h5.card-title
+                    | Customers 
+                    span | This Year
+                  .d-flex.align-items-center
+                    .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
+                      i.bi.bi-people
+                    .ps-3
+                      h6 1244
+                      span.text-danger.small.pt-1.fw-bold 12%
+                      |  
+                      span.text-muted.small.pt-1.ps-1 decrease
+            // End Customers Card
+            // Reports
+            .col-12
+              .card
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body
+                  h5.card-title
+                    | Reports 
+                    span /Today
+                  // Line Chart
+                  #reportsChart
+                  script.
+                    document.addEventListener("DOMContentLoaded", () => {
+                    new ApexCharts(document.querySelector("#reportsChart"), {
+                    series: [{
+                    name: 'Sales',
+                    data: [31, 40, 28, 51, 42, 82, 56],
+                    }, {
+                    name: 'Revenue',
+                    data: [11, 32, 45, 32, 34, 52, 41]
+                    }, {
+                    name: 'Customers',
+                    data: [15, 11, 32, 18, 9, 24, 11]
+                    }],
+                    chart: {
+                    height: 350,
+                    type: 'area',
+                    toolbar: {
+                    show: false
+                    },
+                    },
+                    markers: {
+                    size: 4
+                    },
+                    colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                    fill: {
+                    type: "gradient",
+                    gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.3,
+                    opacityTo: 0.4,
+                    stops: [0, 90, 100]
+                    }
+                    },
+                    dataLabels: {
+                    enabled: false
+                    },
+                    stroke: {
+                    curve: 'smooth',
+                    width: 2
+                    },
+                    xaxis: {
+                    type: 'datetime',
+                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                    },
+                    tooltip: {
+                    x: {
+                    format: 'dd/MM/yy HH:mm'
+                    },
+                    }
+                    }).render();
+                    });
+                  // End Line Chart
+            // End Reports
+            // Recent Sales
+            .col-12
+              .card.recent-sales.overflow-auto
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body
+                  h5.card-title
+                    | Recent Sales 
+                    span | Today
+                  table.table.table-borderless.datatable
+                    thead
+                      tr
+                        th(scope='col') #
+                        th(scope='col') Customer
+                        th(scope='col') Product
+                        th(scope='col') Price
+                        th(scope='col') Status
+                    tbody
+                      tr
+                        th(scope='row')
+                          a(href='#') #2457
+                        td Brandon Jacob
+                        td
+                          a.text-primary(href='#') At praesentium minu
+                        td $64
+                        td
+                          span.badge.bg-success Approved
+                      tr
+                        th(scope='row')
+                          a(href='#') #2147
+                        td Bridie Kessler
+                        td
+                          a.text-primary(href='#') Blanditiis dolor omnis similique
+                        td $47
+                        td
+                          span.badge.bg-warning Pending
+                      tr
+                        th(scope='row')
+                          a(href='#') #2049
+                        td Ashleigh Langosh
+                        td
+                          a.text-primary(href='#') At recusandae consectetur
+                        td $147
+                        td
+                          span.badge.bg-success Approved
+                      tr
+                        th(scope='row')
+                          a(href='#') #2644
+                        td Angus Grady
+                        td
+                          a.text-primar(href='#') Ut voluptatem id earum et
+                        td $67
+                        td
+                          span.badge.bg-danger Rejected
+                      tr
+                        th(scope='row')
+                          a(href='#') #2644
+                        td Raheem Lehner
+                        td
+                          a.text-primary(href='#') Sunt similique distinctio
+                        td $165
+                        td
+                          span.badge.bg-success Approved
+            // End Recent Sales
+            // Top Selling
+            .col-12
+              .card.top-selling.overflow-auto
+                .filter
+                  a.icon(href='#', data-bs-toggle='dropdown')
+                    i.bi.bi-three-dots
+                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                    li.dropdown-header.text-start
+                      h6 Filter
+                    li
+                      a.dropdown-item(href='#') Today
+                    li
+                      a.dropdown-item(href='#') This Month
+                    li
+                      a.dropdown-item(href='#') This Year
+                .card-body.pb-0
+                  h5.card-title
+                    | Top Selling 
+                    span | Today
+                  table.table.table-borderless
+                    thead
+                      tr
+                        th(scope='col') Preview
+                        th(scope='col') Product
+                        th(scope='col') Price
+                        th(scope='col') Sold
+                        th(scope='col') Revenue
+                    tbody
+                      tr
+                        th(scope='row')
+                          a(href='#')
+                            img(src='assets/img/product-1.jpg', alt='')
+                        td
+                          a.text-primary.fw-bold(href='#') Ut inventore ipsa voluptas nulla
+                        td $64
+                        td.fw-bold 124
+                        td $5,828
+                      tr
+                        th(scope='row')
+                          a(href='#')
+                            img(src='assets/img/product-2.jpg', alt='')
+                        td
+                          a.text-primary.fw-bold(href='#') Exercitationem similique doloremque
+                        td $46
+                        td.fw-bold 98
+                        td $4,508
+                      tr
+                        th(scope='row')
+                          a(href='#')
+                            img(src='assets/img/product-3.jpg', alt='')
+                        td
+                          a.text-primary.fw-bold(href='#') Doloribus nisi exercitationem
+                        td $59
+                        td.fw-bold 74
+                        td $4,366
+                      tr
+                        th(scope='row')
+                          a(href='#')
+                            img(src='assets/img/product-4.jpg', alt='')
+                        td
+                          a.text-primary.fw-bold(href='#') Officiis quaerat sint rerum error
+                        td $32
+                        td.fw-bold 63
+                        td $2,016
+                      tr
+                        th(scope='row')
+                          a(href='#')
+                            img(src='assets/img/product-5.jpg', alt='')
+                        td
+                          a.text-primary.fw-bold(href='#') Sit unde debitis delectus repellendus
+                        td $79
+                        td.fw-bold 41
+                        td $3,239
+            // End Top Selling
+        // End Left side columns
+        // Right side columns
+        .col-lg-4
+          // Recent Activity
+          .card
+            .filter
+              a.icon(href='#', data-bs-toggle='dropdown')
+                i.bi.bi-three-dots
+              ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                li.dropdown-header.text-start
+                  h6 Filter
+                li
+                  a.dropdown-item(href='#') Today
+                li
+                  a.dropdown-item(href='#') This Month
+                li
+                  a.dropdown-item(href='#') This Year
+            .card-body
+              h5.card-title
+                | Recent Activity 
+                span | Today
+              .activity
+                .activity-item.d-flex
+                  .activite-label 32 min
+                  i.bi.bi-circle-fill.activity-badge.text-success.align-self-start
+                  .activity-content
+                    | Quia quae rerum 
+                    a.fw-bold.text-dark(href='#') explicabo officiis
+                    |  beatae
+                // End activity item
+                .activity-item.d-flex
+                  .activite-label 56 min
+                  i.bi.bi-circle-fill.activity-badge.text-danger.align-self-start
+                  .activity-content
+                    | Voluptatem blanditiis blanditiis eveniet
+                // End activity item
+                .activity-item.d-flex
+                  .activite-label 2 hrs
+                  i.bi.bi-circle-fill.activity-badge.text-primary.align-self-start
+                  .activity-content
+                    | Voluptates corrupti molestias voluptatem
+                // End activity item
+                .activity-item.d-flex
+                  .activite-label 1 day
+                  i.bi.bi-circle-fill.activity-badge.text-info.align-self-start
+                  .activity-content
+                    | Tempore autem saepe 
+                    a.fw-bold.text-dark(href='#') occaecati voluptatem
+                    |  tempore
+                // End activity item
+                .activity-item.d-flex
+                  .activite-label 2 days
+                  i.bi.bi-circle-fill.activity-badge.text-warning.align-self-start
+                  .activity-content
+                    | Est sit eum reiciendis exercitationem
+                // End activity item
+                .activity-item.d-flex
+                  .activite-label 4 weeks
+                  i.bi.bi-circle-fill.activity-badge.text-muted.align-self-start
+                  .activity-content
+                    | Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                // End activity item
+          .card
+            .filter
+              a.icon(href='#', data-bs-toggle='dropdown')
+                i.bi.bi-three-dots
+              ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
+                li.dropdown-header.text-start
+                  h6 Filter
+                li
+                  a.dropdown-item(href='#') Today
+                li
+                  a.dropdown-item(href='#') This Month
+                li
+                  a.dropdown-item(href='#') This Year
+            .card-body.pb-0
+              h5.card-title
+                | News &amp; Updates 
+                span | Today
+              .news
+                .post-item.clearfix
+                  img(src='assets/img/news-1.jpg', alt='')
+                  h4
+                    a(href='#') Nihil blanditiis at in nihil autem
+                  p Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...
+                .post-item.clearfix
+                  img(src='assets/img/news-2.jpg', alt='')
+                  h4
+                    a(href='#') Quidem autem et impedit
+                  p Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...
+                .post-item.clearfix
+                  img(src='assets/img/news-3.jpg', alt='')
+                  h4
+                    a(href='#') Id quia et et ut maxime similique occaecati ut
+                  p Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...
+                .post-item.clearfix
+                  img(src='assets/img/news-4.jpg', alt='')
+                  h4
+                    a(href='#') Laborum corporis quo dara net para
+                  p Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...
+                .post-item.clearfix
+                  img(src='assets/img/news-5.jpg', alt='')
+                  h4
+                    a(href='#') Et dolores corrupti quae illo quod dolor
+                  p
+                    | Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...
+              // End sidebar recent posts
+          // End News & Updates
+        // End Right side columns
+      // Vendor JS Files

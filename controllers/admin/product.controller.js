@@ -24,14 +24,33 @@ module.exports.index = async (req, res) => {
     if (req.query.keyword)
         find.title = objectSearch.regex
 
+    //Pagination
+    const countProducts = await Product.countDocuments(find)
+    
+    let objectPagination = {
+        currentPage: 1,
+        limitItems: 5
+    }
+
+    if(req.query.page){
+        objectPagination.currentPage = parseInt(req.query.page)
+    }
+
+    objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems
+
+    objectPagination.totalPage = Math.ceil((countProducts/objectPagination.limitItems))
+
     const products = await Product.find(find)
                             .sort({position: "desc"})
+                            .limit(objectPagination.limitItems)
+                            .skip(objectPagination.skip)
 
     res.render("admin/page/products/index.pug", {
         pageTitle: "Trang sản phẩm",
         products: products,
         filterStatus: filterStatus,
-        keyword: objectSearch.keyword
+        keyword: objectSearch.keyword,
+        pagination: objectPagination
     })
 }
 
@@ -159,15 +178,20 @@ module.exports.changeMulti = async (req, res) => {
 
 // [GET] /admin/products/edit
 module.exports.edit = async (req, res) => {
-    let find = {
-        _id: req.params.id
+    try {
+        let find = {
+            _id: req.params.id
+        }
+        const product = await Product.findOne(find)
+    
+        res.render("admin/page/products/edit.pug", {
+            pageTitle: "Chỉnh sửa sản phẩm",
+            product: product
+        })
+    } catch (error) {
+        req.flash('error', 'Không tìm thấy sản phẩm !')
+        res.redirect(`${systemConfig.prefixAdmin}/products`)
     }
-    const product = await Product.findOne(find)
-
-    res.render("admin/page/products/edit.pug", {
-        pageTitle: "Chỉnh sửa sản phẩm",
-        product: product
-    })
 }
 
 // [POST] /admin/products/edit

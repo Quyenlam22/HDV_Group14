@@ -406,3 +406,17 @@ h6 {
   border-radius: 5px;
   max-width: 60px;
 }
+
+.ps-3{
+  margin-left: 10px;
+  height: 50px;
+  width: 120px;
+}
+
+
+
+.small{
+  padding-right: 10px;
+  font-size: 15px;
+  float: left;
+}

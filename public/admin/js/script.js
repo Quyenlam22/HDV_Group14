@@ -148,3 +148,20 @@ if(selectBrand){
         }
     })
 }
+
+//Pagination
+const pagination = document.querySelector(".pagination")
+if(pagination){
+    let url = new URL(window.location.href)
+
+    const buttonPagination = document.querySelectorAll("[button-pagination]")
+    buttonPagination.forEach(button => {
+        button.addEventListener("click", () => {
+            const page = button.getAttribute("button-pagination")
+            
+            url.searchParams.set("page", page)
+            
+            window.location.href = url.href
+        })
+    })
+}
