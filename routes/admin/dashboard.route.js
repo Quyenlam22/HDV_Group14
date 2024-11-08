@@ -1,8 +1,8 @@
 const express = require("express")
 const route = express.Router()
 
-const dashboardController = require("../../controllers/admin/dashboard.controller")
+const controller = require("../../controllers/admin/dashboard.controller")
 
-route.get("/", dashboardController.dashboard)
+route.get("/", controller.dashboard)
 
 module.exports = route

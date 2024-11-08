@@ -27,7 +27,10 @@ block main
                     each item in records 
                         th(class="text-center") #{item.title}
             tbody 
-                tr(data-name="id" class="d-none")
+                tr(
+                    data-name="id" 
+                    class="d-none"
+                )
                     td
                     each item in records
                         td(class="text-center")
@@ -111,16 +114,41 @@ block main
                         td(class="text-center")
                             input(type="checkbox")
 
-    //- else
-    //-     .card.mb-3 
-    //-         .card-body
-    //-             .row 
-    //-                 .col-8 
-    //-                 .col-4 
-    //-                     a(
-    //-                         href=`${prefixAdmin}/roles/create`
-    //-                         class="btn btn-outline-success"
-    //-                     ) + Thêm mới 
+                //- Permissions
+                tr 
+                    td
+                        b Phân quyền
+                tr(data-name="permissions_view")
+                    td Xem
+                    each item in records
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="permissions_create")
+                    td Thêm mới
+                    each item in records
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="permissions_edit")
+                    td Chỉnh sửa
+                    each item in records
+                        td(class="text-center")
+                            input(type="checkbox")
+                tr(data-name="permissions_delete")
+                    td Xóa
+                    each item in records
+                        td(class="text-center")
+                            input(type="checkbox")
+
+    else
+        .card.mb-3 
+            .card-body
+                .row 
+                    .col-8 
+                    .col-4 
+                        a(
+                            href=`${prefixAdmin}/roles/create`
+                            class="btn btn-outline-success"
+                        ) + Thêm mới 
     
     form(
         class="d-none"

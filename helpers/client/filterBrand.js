@@ -16,6 +16,11 @@ module.exports = (query) => {
             class: ""
         },
         {
+            name: "Oppo",
+            brand: "Oppo",
+            class: ""
+        },
+        {
             name: "Mobile Tablets",
             brand: "Mobile Tablets",
             class: ""

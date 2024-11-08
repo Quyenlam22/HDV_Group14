@@ -117,7 +117,7 @@
 }
 
 .dark{
-    background: black;
+    background-color: black;
     color: white;
 }
 
@@ -134,4 +134,8 @@
     text-align: center;
     width: 45px;
     padding-right: 0px;
+}
+[carts]{
+    width: 60px;
+    margin: 10px 40px;
 }

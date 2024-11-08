@@ -6,7 +6,7 @@ block main
       nav
         ol.breadcrumb
           li.breadcrumb-item
-            a(href='/dashboard') Home
+            a(href=`${prefixAdmin}/dashboard`) Home
           li.breadcrumb-item.active Dashboard
     // End Page Title
     section.section.dashboard
@@ -32,12 +32,12 @@ block main
                 .card-body
                   h5.card-title
                     | Sales 
-                    span | Today
+                    span | This Month
                   .d-flex.align-items-center
                     .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
                       i.bi.bi-cart
                     .ps-3
-                      h6 145
+                      h6 #{objectProducts.sold}
                       span.text-success.small.pt-1.fw-bold 12%
                       |  
                       span.text-muted.small.pt-1.ps-1 increase
@@ -64,8 +64,8 @@ block main
                   .d-flex.align-items-center
                     .card-icon.rounded-circle.d-flex.align-items-center.justify-content-center
                       i.bi.bi-currency-dollar
-                    .ps-3
-                      h6 $3,264
+                    .ps-5
+                      h6 #{objectProducts.revenue}$
                       span.text-success.small.pt-1.fw-bold 8%
                       |  
                       span.text-muted.small.pt-1.ps-1 increase
@@ -264,7 +264,7 @@ block main
                 .card-body.pb-0
                   h5.card-title
                     | Top Selling 
-                    span | Today
+                    //- span | Today
                   table.table.table-borderless
                     thead
                       tr
@@ -274,51 +274,16 @@ block main
                         th(scope='col') Sold
                         th(scope='col') Revenue
                     tbody
-                      tr
-                        th(scope='row')
-                          a(href='#')
-                            img(src='/assets/img/product-1.jpg', alt='')
-                        td
-                          a.text-primary.fw-bold(href='#') Ut inventore ipsa voluptas nulla
-                        td $64
-                        td.fw-bold 124
-                        td $5,828
-                      tr
-                        th(scope='row')
-                          a(href='#')
-                            img(src='/assets/img/product-2.jpg', alt='')
-                        td
-                          a.text-primary.fw-bold(href='#') Exercitationem similique doloremque
-                        td $46
-                        td.fw-bold 98
-                        td $4,508
-                      tr
-                        th(scope='row')
-                          a(href='#')
-                            img(src='/assets/img/product-3.jpg', alt='')
-                        td
-                          a.text-primary.fw-bold(href='#') Doloribus nisi exercitationem
-                        td $59
-                        td.fw-bold 74
-                        td $4,366
-                      tr
-                        th(scope='row')
-                          a(href='#')
-                            img(src='/assets/img/product-4.jpg', alt='')
-                        td
-                          a.text-primary.fw-bold(href='#') Officiis quaerat sint rerum error
-                        td $32
-                        td.fw-bold 63
-                        td $2,016
-                      tr
-                        th(scope='row')
-                          a(href='#')
-                            img(src='/assets/img/product-5.jpg', alt='')
-                        td
-                          a.text-primary.fw-bold(href='#') Sit unde debitis delectus repellendus
-                        td $79
-                        td.fw-bold 41
-                        td $3,239
+                      each item in records 
+                        tr
+                          th(scope='row')
+                            a(href='#')
+                              img(src=item.image, alt=item.title)
+                          td
+                            a.text-primary.fw-bold(href='#') #{item.title}
+                          td #{(item.price * (100 - item.discountPercentage) / 100).toFixed(1)}$
+                          td.fw-bold #{item.sold}
+                          td #{(item.price * (100 - item.discountPercentage) / 100 * item.sold).toFixed(1)}$
             // End Top Selling
         // End Left side columns
         // Right side columns

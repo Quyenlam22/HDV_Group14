@@ -7,23 +7,24 @@ const storageMulter = require("../../helpers/admin/storageMulter")
 const upload = multer({ storage: storageMulter() })
 
 const validate = require("../../validates/admin/product.validate")
-const productController = require("../../controllers/admin/product.controller")
+const controller = require("../../controllers/admin/product.controller")
 
-route.get("/", productController.index)
+route.get("/", controller.index)
 
-route.patch("/change-status/:id/:status", productController.changeStatus)
+route.patch("/change-status/:id/:status", controller.changeStatus)
 
-route.patch("/delete-item/:id", productController.deleteItem)
+route.patch("/delete-item/:id", controller.deleteItem)
 
-route.patch("/change-multi", productController.changeMulti)
+route.patch("/change-multi", controller.changeMulti)
 
-route.get("/create", productController.create)
+route.get("/create", controller.create)
 
-route.post("/create", upload.single('image'), validate.createPost, productController.createPost)
+route.post("/create", upload.single('image'), validate.createPost, controller.createPost)
 
-route.get("/edit/:id", productController.edit)
+route.get("/edit/:id", controller.edit)
 
-route.patch("/edit/:id", upload.single('image'), validate.createPost, productController.editPatch)
+route.patch("/edit/:id", upload.single('image'), validate.createPost, controller.editPatch)
 
+route.get("/detail/:id", controller.detail)
 
 module.exports = route

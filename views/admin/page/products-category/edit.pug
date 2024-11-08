@@ -3,13 +3,13 @@ include ../../mixins/show-alert.pug
 include ../../mixins/select-tree.pug
 
 block main 
+    +alert-success(5000)
     +alert-error(5000)
 
-    h1(class="mb-4") Thêm mới sản phẩm 
+    h1(class="mb-4") Chỉnh sửa danh mục
 
     form(
-        action=`${prefixAdmin}/products/create`
-        id="form-create-product"
+        action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
         method="POST"
         enctype="multipart/form-data"
     ) 
@@ -21,17 +21,18 @@ block main
                 id="title"
                 name="title"
                 required
+                value=data.title
             )
         div(class="form-group")
-            label(for="product_category_id") Danh mục
+            label(for="parent_id") Danh mục cha
             select(
                 class="form-control"
-                id="product_category_id"
-                name="product_category_id"
+                id="parent_id"
+                name="parent_id"
             )
-                option(value="") -- Chọn danh mục --
+                option(value="") -- Chọn danh mục cha --
                 if(records)
-                    +select-tree(records)
+                    +select-tree(records, 1, data.parent_id)
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
@@ -39,51 +40,7 @@ block main
                 id="desc"
                 name="description"
                 rows=5
-            )
-        div(class="form-group")
-            label(for="price") Giá
-            input(
-                type="number"
-                step="0.01" 
-                class="form-control"
-                id="price"
-                name="price"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="discount") % Giảm giá
-            input(
-                type="number"
-                step="0.01"
-                class="form-control"
-                id="discount"
-                name="discountPercentage"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="stock") Số lượng
-            input(
-                type="number"
-                step="0.01"
-                class="form-control"
-                id="stock"
-                name="stock"
-                value="0"
-                min="0"
-            )
-        div(class="form-group")
-            label(for="brand") Thương hiệu
-            select(
-                id="brand" 
-                name="brand" 
-                class="form-control"
-            )
-                option(value="Apple") Apple
-                option(value="Samsung") Samsung
-                option(value="Oppo") Oppo
-                option(value="Mobile Tablets") Mobile Tablets
+            ) #{value=data.description}
         div(
             class="form-group"
             upload-image
@@ -98,11 +55,11 @@ block main
                 upload-image-input
             )
             img(
-                src=""
+                src=data.image
                 class="image-preview"
                 upload-image-preview
             )
-            span(close-image) x
+            <span close-image>x</span>
         div(class="form-group")
             label(for="position") Vị trí
             input(
@@ -112,6 +69,7 @@ block main
                 name="position"
                 placeholder="Tự động tăng"
                 min="1"
+                value=data.position
             )
         div(class="form-group form-check form-check-inline")
             input(
@@ -120,7 +78,7 @@ block main
                 id="statusActive"
                 name="status"
                 value="active"
-                checked
+                checked=(data.status == "active" ? true : false)
             )
             label(for="statusActive" class="form-check-label") Hoạt động
         div(class="form-group form-check form-check-inline")
@@ -130,12 +88,12 @@ block main
                 id="statusInActive"
                 name="status"
                 value="inactive"
+                checked=(data.status == "inactive" ? true : false)
             )
             label(for="statusInActive" class="form-check-label") Dừng hoạt động
         div(class="form-group")
             button(
                 type="submit"
                 class="btn btn-primary"
-            ) Tạo mới
+            ) Cập nhật
     
-    script(src="/admin/js/product.js") 

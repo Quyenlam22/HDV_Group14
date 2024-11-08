@@ -1,9 +1,11 @@
+const ProductCategory = require("../../models/products-category.model")
 const Product = require("../../models/product.model")
 const systemConfig = require("../../config/system")
 
 const filterStatusHelper = require("../../helpers/admin/filterStatus")
 const searchHelper = require("../../helpers/admin/search")
 
+const createTreeHelper = require("../../helpers/admin/createTree")
 
 // [GET] /admin/products/
 module.exports.index = async (req, res) => {
@@ -40,8 +42,17 @@ module.exports.index = async (req, res) => {
 
     objectPagination.totalPage = Math.ceil((countProducts/objectPagination.limitItems))
 
+    //Sort
+    let sort = {}
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue
+    }
+    else{
+        sort.position = "desc"
+    }
+
     const products = await Product.find(find)
-                            .sort({position: "desc"})
+                            .sort(sort)
                             .limit(objectPagination.limitItems)
                             .skip(objectPagination.skip)
 
@@ -90,8 +101,13 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/products/create
 module.exports.create = async (req, res) => {
+    const records = await ProductCategory.find({deleted: false})
+
+    const newRecords = createTreeHelper.createTree(records)
+
     res.render("admin/page/products/create.pug", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
+        records: newRecords
     })
 }
 
@@ -176,7 +192,7 @@ module.exports.changeMulti = async (req, res) => {
     res.redirect("back")
 }
 
-// [GET] /admin/products/edit
+// [GET] /admin/products/edit/:id
 module.exports.edit = async (req, res) => {
     try {
         let find = {
@@ -184,9 +200,14 @@ module.exports.edit = async (req, res) => {
         }
         const product = await Product.findOne(find)
     
+        const records = await ProductCategory.find({deleted: false})
+
+        const newRecords = createTreeHelper.createTree(records)
+
         res.render("admin/page/products/edit.pug", {
             pageTitle: "Chỉnh sửa sản phẩm",
-            product: product
+            product: product,
+            records: newRecords
         })
     } catch (error) {
         req.flash('error', 'Không tìm thấy sản phẩm !')
@@ -194,7 +215,7 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-// [POST] /admin/products/edit
+// [PATCH] /admin/products/edit/:id
 module.exports.editPatch = async (req, res) => {
     req.body.price = parseFloat(req.body.price)
     req.body.discountPercentage = parseFloat(req.body.discountPercentage)
@@ -214,4 +235,30 @@ module.exports.editPatch = async (req, res) => {
     }
 
     res.redirect(`back`)
+}
+
+// [GET] /admin/products/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        let find = {
+            _id: req.params.id
+        }
+        const product = await Product.findOne(find)
+
+        if(product.product_category_id){
+            var productCategory = await ProductCategory.findOne({
+                _id: product.product_category_id,
+                deleted: false
+            })
+        }
+
+        res.render("admin/page/products/detail.pug", {
+            pageTitle: "Chi tiết sản phẩm",
+            product: product,
+            record: productCategory
+        })
+    } catch (error) {
+        req.flash('error', 'Không tìm thấy sản phẩm !')
+        res.redirect(`${systemConfig.prefixAdmin}/products`)
+    }
 }

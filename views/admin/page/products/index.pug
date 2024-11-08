@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/show-alert.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/pagination.pug
+include ../../mixins/sort.pug
 
 block main 
     +alert-success(5000)
@@ -19,6 +20,13 @@ block main
                         +filter-status(filterStatus)
                     .col-6
                         +search(keyword)
+
+    .card.mb-3 
+        .card-header Sắp xếp
+        .card-body
+            .row 
+                .col-4 
+                    +sort()
 
     .card.mb-3 
         .card-header Danh sách
@@ -93,6 +101,11 @@ block main
                                             class="badge badge-danger"
                                         ) Dừng hoạt động 
                                 td 
+                                    a(
+                                        href=`${prefixAdmin}/products/detail/${item.id}`
+                                        class="btn btn-secondary btn-sm"
+                                        style="margin-right: 3px"
+                                    ) Chi tiết
                                     a(
                                         href=`${prefixAdmin}/products/edit/${item.id}`
                                         class="btn btn-warning btn-sm"
