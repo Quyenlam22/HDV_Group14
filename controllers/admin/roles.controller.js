@@ -64,6 +64,23 @@ module.exports.editPatch = async (req, res) => {
     res.redirect(`back`)
 }
 
+// [GET] /admin/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const record = await Role.findOne({
+            _id: req.params.id,
+            deleted: false
+        })
+        res.render("admin/page/roles/detail", {
+            titlePage: "Chi tiết nhóm quyền",
+            record: record
+        })
+    } catch (error) {
+        req.flash("Không tìm thấy nhóm quyền")
+        res.redirect(`${systemConfig.prefixAdmin}/roles`)
+    }
+}
+
 // [GET] /admin/roles/permissions
 module.exports.permissions = async (req, res) => {
     let find = {
@@ -95,4 +112,17 @@ module.exports.permissionsPatch = async (req, res) => {
     }
     res.redirect("back")
 
+}
+
+// [PATCH] /admin/delete-item/:id
+module.exports.delete = async (req, res) => {
+    try {
+        await Role.updateOne({
+            _id: req.params.id
+        }, {deleted: true})
+        req.flash("success", "Xóa nhóm quyền thành công !")
+    } catch (error) {
+        req.flash("error", "Xóa nhóm quyền thất bại !")
+    }
+    res.redirect(`back`)
 }

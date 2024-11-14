@@ -1,13 +1,17 @@
 extends ../../layouts/default.pug
+include ../../mixins/show-alert.pug
+include ../../mixins/moment.pug
 
 block main
+  +alert-success(5000)
+  +alert-error(5000)
   h1 Dashboard
     .pagetitle
       nav
         ol.breadcrumb
           li.breadcrumb-item
             a(href=`${prefixAdmin}/dashboard`) Home
-          li.breadcrumb-item.active Dashboard
+          li.breadcrumb-item Dashboard
     // End Page Title
     section.section.dashboard
       .row
@@ -297,55 +301,25 @@ block main
                 li.dropdown-header.text-start
                   h6 Filter
                 li
-                  a.dropdown-item(href='#') Today
+                  button(class="dropdown-item recent-activity" value="Today") Today
                 li
-                  a.dropdown-item(href='#') This Month
+                  button(class="dropdown-item recent-activity" value="This Month") This Month
                 li
-                  a.dropdown-item(href='#') This Year
+                  button(class="dropdown-item recent-activity" value="This Year") This Year
             .card-body
               h5.card-title
                 | Recent Activity 
-                span | Today
-              .activity
-                .activity-item.d-flex
-                  .activite-label 32 min
-                  i.bi.bi-circle-fill.activity-badge.text-success.align-self-start
-                  .activity-content
-                    | Quia quae rerum 
-                    a.fw-bold.text-dark(href='#') explicabo officiis
-                    |  beatae
-                // End activity item
-                .activity-item.d-flex
-                  .activite-label 56 min
-                  i.bi.bi-circle-fill.activity-badge.text-danger.align-self-start
-                  .activity-content
-                    | Voluptatem blanditiis blanditiis eveniet
-                // End activity item
-                .activity-item.d-flex
-                  .activite-label 2 hrs
-                  i.bi.bi-circle-fill.activity-badge.text-primary.align-self-start
-                  .activity-content
-                    | Voluptates corrupti molestias voluptatem
-                // End activity item
-                .activity-item.d-flex
-                  .activite-label 1 day
-                  i.bi.bi-circle-fill.activity-badge.text-info.align-self-start
-                  .activity-content
-                    | Tempore autem saepe 
-                    a.fw-bold.text-dark(href='#') occaecati voluptatem
-                    |  tempore
-                // End activity item
-                .activity-item.d-flex
-                  .activite-label 2 days
-                  i.bi.bi-circle-fill.activity-badge.text-warning.align-self-start
-                  .activity-content
-                    | Est sit eum reiciendis exercitationem
-                // End activity item
-                .activity-item.d-flex
-                  .activite-label 4 weeks
-                  i.bi.bi-circle-fill.activity-badge.text-muted.align-self-start
-                  .activity-content
-                    | Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                span(id="time-active") | Today
+              each timeLog in timeLogs
+                .activity
+                  .activity-item.d-flex
+                    .activite-label 
+                      +formatDateTime(timeLog.createdAt)
+                    i.bi.bi-circle-fill.activity-badge.text-success.align-self-start
+                    .activity-content
+                      | #{timeLog.accountFullName} - #{timeLog.accountRoleTitle}
+                    //- a.fw-bold.text-dark(href='#') explicabo officiis
+                    //- |  beatae
                 // End activity item
           .card
             .filter
@@ -395,3 +369,4 @@ block main
           // End News & Updates
         // End Right side columns
       // Vendor JS Files
+  script(src="/admin/js/dashboard.js") 

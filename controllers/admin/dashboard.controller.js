@@ -1,4 +1,7 @@
 const Product = require("../../models/product.model")
+const TimeLogin = require("../../models/time-log.model")
+const Account = require("../../models/account.model")
+const Role = require("../../models/roles.model")
 
 module.exports.dashboard = async (req, res) => {
     let find = {
@@ -20,9 +23,23 @@ module.exports.dashboard = async (req, res) => {
     });
     objectProducts.revenue = objectProducts.revenue.toFixed(1)
 
+    const timeLogs = await TimeLogin.find().limit(5).sort({createdAt: "desc"})
+
+    for (const timeLog of timeLogs) {
+        const account = await Account.findOne({
+            _id: timeLog.account_id
+        })
+        const role = await Role.findOne({
+            _id: account.role_id
+        })
+        timeLog.accountFullName = account.fullName
+        timeLog.accountRoleTitle = role.title
+    }
+
     res.render("./admin/page/dashboard/index.pug", {
         pageTitle: "Trang tổng quan",
         records: records,
-        objectProducts: objectProducts
+        objectProducts: objectProducts,
+        timeLogs: timeLogs
     })
 }

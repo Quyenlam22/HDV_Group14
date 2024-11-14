@@ -17,6 +17,9 @@ require('dotenv').config()
 // pathMCE
 const path = require("path")
 
+//Moment
+const moment = require("moment")
+
 const app = express()
 const port = process.env.PORT
 
@@ -46,6 +49,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 const systemConfig = require("./config/system")
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+
+app.locals.moment = moment
 
 //Tiny MCE
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));

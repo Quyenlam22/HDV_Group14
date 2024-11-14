@@ -23,4 +23,6 @@ route.patch("/edit/:id", upload.single('image'), validate.createPost, controller
 
 route.get("/detail/:id", controller.detail)
 
+route.patch("/delete-item/:id", controller.delete)
+
 module.exports = route

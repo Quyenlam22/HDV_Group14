@@ -1,5 +1,6 @@
 const Account = require("../../models/account.model")
-const Role = require("../../models/roles.model")
+// const Role = require("../../models/roles.model")
+const TimeLogin = require("../../models/time-log.model")
 
 const systemConfig = require("../../config/system")
 
@@ -7,6 +8,9 @@ const md5 = require("md5")
 
 // [GET] /admin/auth/login
 module.exports.login = async (req, res) => {
+    if(req.cookies.token){
+        res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
+    }
     res.render("admin/page/auth/login", {
         pageTitle: "Đăng nhập",
     })
@@ -37,7 +41,13 @@ module.exports.loginPost = async (req, res) => {
             return
         }
 
-        res.cookie("token", user.token)
+        const newLog = new TimeLogin({
+            account_id: user.id,
+            createdAt: new Date()
+        })
+        await newLog.save()
+
+        res.cookie("token", user.token, {maxAge: 12*60*60*1000}) //12 Hours
         req.flash("success", "Đăng nhập thành công!")
         res.redirect(`${systemConfig.prefixAdmin}/dashboard`)
     } catch (error) {

@@ -132,3 +132,15 @@ module.exports.detail = async (req, res) => {
         parent: parent
     })
 }
+
+// [PATCH] /admin/products-cateqory/delete-item/:id
+module.exports.delete = async (req, res) => {
+    try {
+        await ProductCategory.updateOne({_id: req.params.id}, {deleted: true})
+        req.flash("success", "Xóa danh mục thành công !")
+    } catch (error) {
+        req.flash("error", "Xóa danh mục thất bại !")
+    }
+
+    res.redirect(`back`)
+}
