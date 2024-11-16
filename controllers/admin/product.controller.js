@@ -3,6 +3,7 @@ const Product = require("../../models/product.model")
 const systemConfig = require("../../config/system")
 
 const filterStatusHelper = require("../../helpers/admin/filterStatus")
+const paginationHelper = require("../../helpers/admin/pagination")
 const searchHelper = require("../../helpers/admin/search")
 
 const createTreeHelper = require("../../helpers/admin/createTree")
@@ -23,24 +24,16 @@ module.exports.index = async (req, res) => {
     // Search
     const objectSearch = searchHelper(req.query)
 
-    if (req.query.keyword)
+    if (objectSearch.keyword)
         find.title = objectSearch.regex
 
     //Pagination
     const countProducts = await Product.countDocuments(find)
     
-    let objectPagination = {
+    let objectPagination = paginationHelper({
         currentPage: 1,
         limitItems: 5
-    }
-
-    if(req.query.page){
-        objectPagination.currentPage = parseInt(req.query.page)
-    }
-
-    objectPagination.skip = (objectPagination.currentPage - 1) * objectPagination.limitItems
-
-    objectPagination.totalPage = Math.ceil((countProducts/objectPagination.limitItems))
+    }, req.query, countProducts)
 
     //Sort
     let sort = {}
@@ -229,9 +222,9 @@ module.exports.editPatch = async (req, res) => {
 
     try {
         await Product.updateOne({_id: req.params.id}, req.body)
-        req.flash("success", `Thêm sản phẩm thành công!`)
+        req.flash("success", `Sửa sản phẩm thành công!`)
     } catch (error) {
-        req.flash("error", `Thêm sản phẩm thất bại!`)
+        req.flash("error", `Sửa sản phẩm thất bại!`)
     }
 
     res.redirect(`back`)

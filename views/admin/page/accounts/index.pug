@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/pagination.pug
 
 block main  
     +alert-success(5000)
@@ -91,6 +92,9 @@ block main
                         else
                             tr          
                                 td(colspan="7" class="text-center") Chưa có tài khoản nào được tạo
+        
+        +pagination(pagination)
+
         form(
             action="" 
             method="POST"

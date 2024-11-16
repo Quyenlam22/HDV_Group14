@@ -1,7 +1,6 @@
 module.exports = (query) => {
     let objectSearch = {
-        keyword: "",
-        regex: ""
+        keyword: ""
     }
 
     if(query.keyword){

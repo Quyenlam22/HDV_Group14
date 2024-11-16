@@ -25,4 +25,6 @@ route.get("/detail/:id", controller.detail)
 
 route.patch("/delete-item/:id", controller.delete)
 
+route.patch("/change-multi", controller.changeMulti)
+
 module.exports = route

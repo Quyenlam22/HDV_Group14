@@ -1,6 +1,9 @@
 const Account = require("../../models/account.model")
 const Role = require("../../models/roles.model")
 
+
+const paginationHelper = require("../../helpers/admin/pagination")
+
 const systemConfig = require("../../config/system")
 const generate = require("../../helpers/admin/generate")
 
@@ -11,10 +14,21 @@ module.exports.index = async (req, res) => {
     let find = {
         deleted: false
     }
-    
-    const records = await Account.find(find).select("-password -token")
 
-    for(const record of records){
+    //Pagination
+    const countAccounts = await Account.countDocuments(find)
+
+    let objectPagination = paginationHelper({
+        currentPage: 1,
+        limitItems: 5
+    }, req.query, countAccounts)
+
+    const records = await Account.find(find)
+        .select("-password -token")
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip)
+
+    for (const record of records) {
         const role = await Role.findOne({
             _id: record.role_id,
             deleted: false
@@ -23,13 +37,16 @@ module.exports.index = async (req, res) => {
     }
     res.render("admin/page/accounts/index", {
         pageTitle: "Danh sách tài khoản",
-        records: records
+        records: records,
+        pagination: objectPagination
     })
 }
 
 // [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
-    const roles = await Role.find({deleted: false})
+    const roles = await Role.find({
+        deleted: false
+    })
     res.render("admin/page/accounts/create", {
         pageTitle: "Thêm tài khoản",
         roles: roles
@@ -37,17 +54,16 @@ module.exports.create = async (req, res) => {
 }
 
 // [POST] /admin/accounts/create
-module.exports.createPost = async (req, res) => {  
+module.exports.createPost = async (req, res) => {
     try {
         const emailExist = await Account.findOne({
             email: req.body.email,
             deleted: false
         })
-        if(emailExist){
+        if (emailExist) {
             req.flash("error", `Email ${req.body.email} đã tồn tại!`)
             res.redirect('back')
-        }
-        else{
+        } else {
             req.body.password = md5(req.body.password)
 
             if (req.file) {
@@ -68,7 +84,7 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] /admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
-    try{
+    try {
         const account = await Account.findOne({
             _id: req.params.id,
             deleted: false
@@ -76,24 +92,25 @@ module.exports.edit = async (req, res) => {
         const roles = await Role.find({
             deleted: false
         })
-        
+
         res.render("admin/page/accounts/edit", {
             pageTitle: "Chỉnh sửa tài khoản",
             account: account,
             roles: roles
         })
-    }
-    catch(error){
+    } catch (error) {
         req.flash("error", "Không tìm thấy tài khoản!")
         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
     }
 }
 
 //[PATCH] admin/accounts/edit/:id
-module.exports.editPatch = async (req, res) => { 
+module.exports.editPatch = async (req, res) => {
     try {
         const emailExist = await Account.findOne({
-            _id: {$ne: req.params.id},
+            _id: {
+                $ne: req.params.id
+            },
             email: req.body.email,
             deleted: false
         })
@@ -102,10 +119,9 @@ module.exports.editPatch = async (req, res) => {
             req.flash("error", `Email ${req.body.email} đã tồn tại`)
         }
 
-        if(req.body.password){
+        if (req.body.password) {
             req.body.password = md5(req.body.password)
-        }
-        else{
+        } else {
             delete req.body.password
         }
 
@@ -113,7 +129,9 @@ module.exports.editPatch = async (req, res) => {
             req.body.avatar = `/uploads/${req.file.filename}`
         }
 
-        await Account.updateOne({_id: req.params.id}, req.body)
+        await Account.updateOne({
+            _id: req.params.id
+        }, req.body)
 
         req.flash("success", "Cập nhật tài khoản thành công!")
     } catch (error) {
@@ -125,7 +143,7 @@ module.exports.editPatch = async (req, res) => {
 
 // [GET] /admin/accounts/detail/:id
 module.exports.detail = async (req, res) => {
-    try{
+    try {
         const account = await Account.findOne({
             _id: req.params.id,
             deleted: false
@@ -135,23 +153,26 @@ module.exports.detail = async (req, res) => {
             _id: account.role_id,
             deleted: false
         })
-        
+
         res.render("admin/page/accounts/detail", {
             pageTitle: "Chi tiết tài khoản",
             account: account,
             role: role
         })
-    }
-    catch(error){
+    } catch (error) {
         req.flash("error", "Không tìm thấy tài khoản!")
         res.redirect(`${systemConfig.prefixAdmin}/accounts`)
     }
 }
 
 //[PATCH] admin/accounts/change-status/:id/:status
-module.exports.changeStatus = async (req, res) => { 
+module.exports.changeStatus = async (req, res) => {
     try {
-        await Account.updateOne({_id: req.params.id}, {status: req.params.status})
+        await Account.updateOne({
+            _id: req.params.id
+        }, {
+            status: req.params.status
+        })
         req.flash("success", "Cập nhật trạng thái tài khoản thành công!")
     } catch (error) {
         req.flash("error", "Cập nhật trạng thái tài khoản thất bại!")

@@ -1,17 +1,48 @@
 const Role = require("../../models/roles.model")
 const systemConfig = require("../../config/system")
 
+const paginationHelper = require("../../helpers/admin/pagination")
+const searchHelper = require("../../helpers/admin/search")
+
 // [GET] /admin/roles
 module.exports.index = async (req, res) => {
     let find = {
         deleted: false
     }
 
+    //Pagination
+    const countRoles = await Role.countDocuments(find)
+    
+    let objectPagination = paginationHelper({
+        currentPage: 1,
+        limitItems: 5
+    }, req.query, countRoles)
+
+    //Sort
+    let sort = {}
+    if(req.query.sortKey && req.query.sortValue){
+        sort[req.query.sortKey] = req.query.sortValue
+    }
+    else{
+        sort.title = "desc"
+    }
+
+    //Search
+    const objectSearch = searchHelper(req.query)
+
+    if (objectSearch.keyword)
+        find.title = objectSearch.regex
+
     const records = await Role.find(find)
+        .sort(sort)
+        .limit(objectPagination.limitItems)
+        .skip(objectPagination.skip)
 
     res.render("admin/page/roles/index", {
         titlePage: "Nhóm quyền",
-        records: records
+        records: records,
+        pagination: objectPagination,
+        keyword: objectSearch.keyword
     })
 }
 

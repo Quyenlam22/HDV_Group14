@@ -1,5 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/show-alert.pug
+include ../../mixins/pagination.pug
+include ../../mixins/search.pug
 
 block main  
     +alert-success(5000)
@@ -7,6 +9,27 @@ block main
 
     if(role.permissions.includes("roles_view"))
         h1 Nhóm quyền
+
+        .card.mb-3 
+            .card-header Sắp xếp và tìm kiếm
+            .card-body
+                .row 
+                    .col-6 
+                        div(sort)
+                            select(
+                                class="form-control"
+                                name="sort"
+                                sort-select
+                            )
+                                option(value="title-asc") Nhóm quyền A - Z
+                                option(value="title-desc") Nhóm quyền Z - A
+                            
+                            button(
+                                class="btn btn-danger mt-2"
+                                sort-clear 
+                            ) Clear
+                    .col-6
+                        +search(keyword)
 
         .card.mb-3 
             .card-header Danh sách
@@ -36,7 +59,7 @@ block main
                                 tr
                                     td #{index + 1} 
                                     td #{item.title} 
-                                    td #{item.description}
+                                    td !{item.description}
                                     td 
                                         a(
                                             href=`${prefixAdmin}/roles/detail/${item.id}`
@@ -56,8 +79,10 @@ block main
                                             ) Xóa  
                         else
                             tr          
-                                td(colspan="4" class="text-center") Chưa có nhóm quuền nào được tạo
+                                td(colspan="4" class="text-center") Không tìm thấy nhóm quyền
         
+        +pagination(pagination)
+
         form(
             action="" 
             method="POST"

@@ -24,13 +24,12 @@ block main
                 )
             div(class="form-group")
                 label(for="desc") Mô tả
-                input(
-                    type="text"
-                    class="form-control"
+                textarea(
+                    class="form-control textarea-mce"
                     id="desc"
                     name="description"
-                    value=record.description
-                )
+                    rows=5
+                ) #{record.description}
             div(class="form-group")
                 button(
                     type="submit"

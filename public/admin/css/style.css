@@ -107,13 +107,9 @@
 
 /* Sort */
 [sort-select] {
-    width: 160px;
-    display: inline-block;
+    width: 180px;
 }
 
-[sort-clear]{
-    margin: 0 0 3% 3%;
-}
 
 .btn-primary{
     margin-right: 5px;

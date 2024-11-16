@@ -420,3 +420,7 @@ h6 {
   font-size: 15px;
   float: left;
 }
+
+.activity-item{
+  padding: 20px 0;
+}

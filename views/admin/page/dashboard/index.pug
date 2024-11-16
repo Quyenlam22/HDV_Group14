@@ -16,7 +16,7 @@ block main
     section.section.dashboard
       .row
         // Left side columns
-        .col-lg-8
+        .col-lg-7
           .row
             // Sales Card
             .col-xxl-4.col-md-6
@@ -289,9 +289,9 @@ block main
                           td.fw-bold #{item.sold}
                           td #{(item.price * (100 - item.discountPercentage) / 100 * item.sold).toFixed(1)}$
             // End Top Selling
-        // End Left side columns
+          // End Left side columns
         // Right side columns
-        .col-lg-4
+        .col-lg-5
           // Recent Activity
           .card
             .filter
