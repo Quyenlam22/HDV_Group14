@@ -54,7 +54,7 @@ module.exports.index = async (req, res) => {
     })
 }
 
-// [GET] /admin/products-cateqory/change-status/:id/:status
+// [PATCH] /admin/products-cateqory/change-status/:id/:status
 module.exports.changeStatus = async (req, res) => {
     try {
         await ProductCategory.updateOne({

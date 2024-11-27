@@ -60,6 +60,13 @@ module.exports.createPost = async (req, res) => {
             email: req.body.email,
             deleted: false
         })
+
+        if(req.body.role_id == ""){
+            req.flash("error", `Vui lòng chọn phân quyền`)
+            res.redirect("back")
+            return
+        }
+
         if (emailExist) {
             req.flash("error", `Email ${req.body.email} đã tồn tại!`)
             res.redirect('back')
@@ -70,6 +77,8 @@ module.exports.createPost = async (req, res) => {
                 req.body.avatar = `/uploads/${req.file.filename}`
             }
             req.body.token = generate.generateRandomString(20)
+
+            console.log(req.body)
 
             const account = new Account(req.body)
             await account.save()
@@ -117,6 +126,12 @@ module.exports.editPatch = async (req, res) => {
 
         if (emailExist) {
             req.flash("error", `Email ${req.body.email} đã tồn tại`)
+        }
+
+        if(req.body.role_id == ""){
+            req.flash("error", `Vui lòng chọn phân quyền`)
+            res.redirect("back")
+            return
         }
 
         if (req.body.password) {
@@ -178,5 +193,18 @@ module.exports.changeStatus = async (req, res) => {
         req.flash("error", "Cập nhật trạng thái tài khoản thất bại!")
     }
 
+    res.redirect(`back`)
+}
+
+// [PATCH] /admin/delete-item/:id
+module.exports.delete = async (req, res) => {
+    try {
+        await Account.updateOne({
+            _id: req.params.id
+        }, {deleted: true})
+        req.flash("success", "Xóa tài khoản thành công !")
+    } catch (error) {
+        req.flash("error", "Xóa tài khoản thất bại !")
+    }
     res.redirect(`back`)
 }

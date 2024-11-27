@@ -1,7 +1,7 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/search.pug
-include ../../mixins/filter-brand.pug
+include ../../mixins/product-layout.pug
 
 block main
   .container.my-3 
@@ -9,49 +9,10 @@ block main
       .col-12 
         +box-head("Danh sách sản phẩm")
 
-    .card.mb-3 
-      .card-header Bộ lọc và tìm kiếm
-        .card-body
-            .row 
-                .col-6
-                   +filter-brand(filterBrand) 
-                .col-6
-                    +search(keyword)
-
+    //- .card.mb-3 
     .row 
-      each item in products
-        .col-4.mb-3 
-            .product-item 
-              .inner-image 
-                img(
-                src=item.image 
-                alt=item.title
-                zoom-image
-                )
-              .inner-content 
-                h3.inner-title #{item.title}
-                .row
-                  .col-7
-                    .inner-price-new #{item.newPrice}$
-                    .inner-price-old #{item.price}$
-                    .inner-discount -#{item.discountPercentage}%
-                  .col-5
-                    .order-quantity
-                      button(class="btn btn-light"
-                       button-reduce
-                      ) -
-                      input(
-                        class="order-value form-control"
-                        type='number'
-                        value='1'
-                        min='1'
-                        readonly=''
-                        )
-                      button(class="btn btn-light"
-                       button-increase
-                      ) +
-                    .order-item
-                      button(
-                        class="btn btn-warning"
-                        carts
-                      ) <i class="fa-solid fa-cart-shopping"></i>
+      .col-6
+      .col-6.mb-3
+        +search(keyword)
+
+    +product-grid(products)

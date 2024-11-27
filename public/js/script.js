@@ -26,24 +26,6 @@ if(formSearch){
     })
 }
 
-//Filter Brand
-const buttonsBrand = document.querySelectorAll("[button-brand]")
-if(buttonsBrand.length > 0){
-    buttonsBrand.forEach(button => {
-        button.addEventListener("click", () =>{
-            const brand = button.getAttribute("button-brand")
-            if(brand){
-                url.searchParams.set("brand", brand)
-            }
-            else{
-                url.searchParams.delete("brand")
-            }
-            
-            window.location.href = url.href
-        })
-    })
-}
-
 //Dark Light Mode
 const buttonLightMode = document.querySelector(".light-mode")
 const buttonDarkMode = document.querySelector(".dark-mode")

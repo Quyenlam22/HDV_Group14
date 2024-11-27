@@ -11,7 +11,7 @@ module.exports.dashboard = async (req, res) => {
 
     const records = await Product.find(find)
                             .sort({sold: "desc"})
-                            .limit(5)
+                            // .limit(5)
 
     let objectProducts = {
         revenue: 0,
@@ -23,6 +23,7 @@ module.exports.dashboard = async (req, res) => {
     });
     objectProducts.revenue = objectProducts.revenue.toFixed(1)
 
+    //Time Login
     const timeLogs = await TimeLogin.find().limit(5).sort({createdAt: "desc"})
 
     for (const timeLog of timeLogs) {
@@ -38,7 +39,7 @@ module.exports.dashboard = async (req, res) => {
 
     res.render("./admin/page/dashboard/index.pug", {
         pageTitle: "Trang tổng quan",
-        records: records,
+        records: records.slice(0, 5),
         objectProducts: objectProducts,
         timeLogs: timeLogs
     })

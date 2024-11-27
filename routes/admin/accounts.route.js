@@ -23,4 +23,6 @@ route.get("/detail/:id", controller.detail)
 
 route.patch("/change-status/:id/:status", controller.changeStatus)
 
+route.patch("/delete-item/:id", controller.delete)
+
 module.exports = route

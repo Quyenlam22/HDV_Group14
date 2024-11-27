@@ -102,6 +102,14 @@ block main
             change-status  
             path=`${prefixAdmin}/accounts`  
         ) 
+
+        form(
+            action="" 
+            method="POST"
+            class="d-none"
+            delete-item  
+            path=`${prefixAdmin}/accounts`  
+        ) 
         //- script(src="/admin/js/account.js") 
     
     else
