@@ -38,26 +38,26 @@ if(loadPage){
     buttonLightMode.classList.remove("button-mode-click")
 }
 
-console.log(loadPage)
-
-buttonDarkMode.addEventListener("click", () => {
-    buttonDarkMode.classList.add("button-mode-click")
-    buttonLightMode.classList.remove("button-mode-click")
-    const currentMode = localStorage.getItem("mode")
-    if(!currentMode){
-        localStorage.setItem("mode", "dark")
-    }
-    body.classList.add("dark")
-})
-buttonLightMode.addEventListener("click", () => {
-    buttonDarkMode.classList.remove("button-mode-click")
-    buttonLightMode.classList.add("button-mode-click")
-    const currentMode = localStorage.getItem("mode")
-    if(currentMode){
-        localStorage.setItem("mode", "")
-    }
-    body.classList.remove("dark")
-})
+if(buttonDarkMode && buttonLightMode){
+    buttonDarkMode.addEventListener("click", () => {
+        buttonDarkMode.classList.add("button-mode-click")
+        buttonLightMode.classList.remove("button-mode-click")
+        const currentMode = localStorage.getItem("mode")
+        if(!currentMode){
+            localStorage.setItem("mode", "dark")
+        }
+        body.classList.add("dark")
+    })
+    buttonLightMode.addEventListener("click", () => {
+        buttonDarkMode.classList.remove("button-mode-click")
+        buttonLightMode.classList.add("button-mode-click")
+        const currentMode = localStorage.getItem("mode")
+        if(currentMode){
+            localStorage.setItem("mode", "")
+        }
+        body.classList.remove("dark")
+    })
+}
 
 //Order Quantity
 const orderQuantities = document.querySelectorAll(".order-quantity")
@@ -78,4 +78,17 @@ if(orderQuantities){
             inputOrder.value = parseInt(inputOrder.value) + 1
         })
     })
+}
+
+//Show alert
+const showAlert = document.querySelector("[show-alert]")
+if (showAlert) {
+    const time = parseInt(showAlert.getAttribute("data-time"))
+    const closeAlert = document.querySelector("[close-alert]")
+    closeAlert.addEventListener("click", () => {
+        showAlert.classList.add("alert-hidden")
+    })
+    setTimeout(() => {
+        showAlert.classList.add("alert-hidden")
+    }, time)
 }
