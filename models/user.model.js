@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     phone: String,
-    token: String,
+    tokenUser: String,
     deleted: {
         type: Boolean,
         default: false

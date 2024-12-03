@@ -4,3 +4,8 @@ module.exports.index = (req, res) => {
         pageTitle: "Giỏ hàng",
     })
 }
+
+// [POST] /carts/add/:productId
+module.exports.addPost = (req, res) => {
+    res.send("ok")
+}

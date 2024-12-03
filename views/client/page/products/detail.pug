@@ -7,9 +7,10 @@ block main
     .product-detail 
         .container.my-5
             .row
-                .col-6
+                .col-5
                     .inner-thumb 
-                        img(src=product.thumbnail, alt=product.title)
+                        img(src=product.image, alt=product.title)
+                .col-1
                 .col-6
                     h1(class="inner-title") #{product.title}
 

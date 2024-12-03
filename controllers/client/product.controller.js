@@ -3,6 +3,7 @@ const ProductCategory = require("../../models/products-category.model")
 const searchHelper = require("../../helpers/client/search")
 
 const productsHelper = require("../../helpers/client/priceNewProduct")
+const productsCategoryHelper = require("../../helpers/client/products-category")
 
 // [GET] /products
 module.exports.index = async (req, res) => {
@@ -61,4 +62,31 @@ module.exports.detail = async (req, res) => {
         req.flash("error", "Không tìm thấy sản phẩm!")
         res.redirect(`/products`)
     }
+}
+
+// [GET] /products/:slugCategory
+module.exports.category = async (req, res) => {
+    const category = await ProductCategory.findOne({
+        slug: req.params.slugCategory,
+        status: "active",
+        deleted: false
+    })
+
+    const listSubCategory = await productsCategoryHelper.getSubCategory(category.id)
+    
+    const listSubCategoryId = listSubCategory.map(item => item.id)
+    
+    const products = await Product.find({
+        product_category_id: {$in: [category.id, ...listSubCategoryId]},
+        status: "active",
+        deleted: false
+    })
+    
+    const newProducts = productsHelper.priceNewProducts(products)
+
+    console.log(newProducts)
+    res.render("client/page/products", {
+        pageTitle: "Danh sách sản phẩm",
+        products: newProducts,
+    })
 }

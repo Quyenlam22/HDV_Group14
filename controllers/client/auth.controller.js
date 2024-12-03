@@ -31,9 +31,9 @@ module.exports.loginPost = async (req, res) => {
             return
         }
 
-        res.cookie("token", user.token, {maxAge: 12*60*60*1000}) //12 Hours
+        res.cookie("tokenUser", user.tokenUser, {maxAge: 12*60*60*1000}) //12 Hours
         req.flash("success", "Đăng nhập thành công!")
-        res.redirect(`/carts`)
+        res.redirect(`/cart`)
     } catch (error) {
         req.flash("error", "Lỗi tài khoản!")
         res.redirect("back")
@@ -69,7 +69,7 @@ module.exports.registerPost = async (req, res) => {
     
         req.body.password = md5(req.body.password)
     
-        req.body.token = generate.generateRandomString(20)
+        req.body.tokenUser = generate.generateRandomString(20)
     
         delete req.body.confirm_password
     
@@ -83,4 +83,11 @@ module.exports.registerPost = async (req, res) => {
         req.flash("error", "Thêm tài khoản thất bại!")
         res.redirect("back")
     }
+}
+
+// [GET] /auth/logout
+module.exports.logout = (req, res) => {
+    res.clearCookie("tokenUser")
+    req.flash("success", "Thoát tài khoản thành công!")
+    res.redirect(`back`)
 }

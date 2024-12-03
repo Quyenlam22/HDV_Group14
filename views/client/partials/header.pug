@@ -1,25 +1,55 @@
+include ../mixins/sub-menu.pug
+
 header.header 
     .container 
         .row.align-items-center 
-            .col-3
-                .inner-logo 
-                    a(href="/")
-                        img(src="/images/Logo.jpg" alt="Logo")
+            .col-8
+                .row
+                    .col-1
+                        .inner-logo 
+                            a(href="/")
+                                img(src="/images/Logo.jpg" alt="Logo")
 
-            .col-9
-                .inner-menu 
-                    ul 
-                        li 
-                            a(href="/") Trang chủ 
-                        li 
-                            a(href="/products") Sản phẩm  
-                        li 
-                            div 
-                                button(
-                                    class="button-mode light-mode button-mode-click"
-                                ) 
-                                    <i class="fa-regular fa-sun"></i>
-                                button(
-                                    class="button-mode dark-mode"
-                                ) 
-                                    i(class="fa-solid fa-moon")
+                    .col-5
+                        .inner-menu 
+                            ul 
+                                li 
+                                    a(href="/") Trang chủ 
+                                li.sub-menu
+                                    -const pathProduct = "/products"
+                                    a(href=pathProduct) Sản phẩm
+                                        +sub-menu(layoutProductCategory, pathProduct)
+            .col-4
+                .row.align-items-center 
+                    .col-6
+                        div 
+                            button(
+                                class="button-mode light-mode button-mode-click"
+                            ) 
+                                <i class="fa-regular fa-sun"></i>
+                            button(
+                                class="button-mode dark-mode"
+                            ) 
+                                i(class="fa-solid fa-moon")
+
+                    .col-6
+                        div(class="text-right")
+                            if(userClient)
+                                a(
+                                    href=`/my-account`
+                                    class="btn btn-primary btn-sm mr-2"
+                                ) #{userClient.username}
+                                a(
+                                    href=`/auth/logout`
+                                    class="btn btn-danger btn-sm"
+                                ) Đăng xuất
+                            else
+                                a(
+                                    href=`/auth/login`
+                                    class="btn btn-primary btn-sm mr-2"
+                                ) Đăng nhập
+                                a(
+                                    href=`/auth/register`
+                                    class="btn btn-danger btn-sm"
+                                ) Đăng ký
+                    

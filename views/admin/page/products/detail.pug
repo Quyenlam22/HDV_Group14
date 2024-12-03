@@ -34,6 +34,11 @@ block main
             else
                 span(class="badge badge-danger") Dừng hoạt động
     
+    if(product.featured)
+        div(class="mb-4")
+            span Sản phẩm: 
+            if(product.featured === "1")
+                span(class="badge badge-success") Nổi bật
     if(product.position)
         div(class="mb-4") Vị trí: <b>#{product.position}</b>
 

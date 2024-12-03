@@ -8,6 +8,6 @@ route.get('/', controller.index)
 // route.get('/detail/:slugProduct', controller.detail)
 route.get('/detail/:id', controller.detail)
 
-// route.get('/:slugCategory', controller.category)
+route.get('/:slugCategory', controller.category)
 
 module.exports = route

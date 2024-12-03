@@ -14,30 +14,14 @@ mixin product-item(item)
                     //- a(href=`/products/detail/${item.slug}`) #{item.title}
                     a(href=`/products/detail/${item.id}`) #{item.title}
                 .row
-                    .col-7
+                    .col-8
                         .inner-price-new #{item.priceNew}$
                         .inner-price-old #{item.price}$
                         .inner-discount -#{item.discountPercentage}%
-                    .col-5
-                        .order-quantity
-                            button(
-                                class="btn btn-light"
-                                button-reduce
-                            ) -
-                            input(
-                                class="order-value form-control"
-                                type='number'
-                                value='1'
-                                min='1'
-                                readonly=''
-                            )
-                            button(
-                                class="btn btn-light"
-                                button-increase
-                            ) +
+                    .col-4
                         .order-item
                             a(
                                 class="btn btn-warning"
                                 carts
-                                href=`/carts`
+                                href=`/products/detail/${item.id}`
                             ) <i class="fa-solid fa-cart-shopping"></i>
