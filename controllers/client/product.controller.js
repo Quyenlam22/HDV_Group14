@@ -84,7 +84,6 @@ module.exports.category = async (req, res) => {
     
     const newProducts = productsHelper.priceNewProducts(products)
 
-    console.log(newProducts)
     res.render("client/page/products", {
         pageTitle: "Danh sách sản phẩm",
         products: newProducts,

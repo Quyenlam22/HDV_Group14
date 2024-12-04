@@ -21,7 +21,13 @@ header.header
                                         +sub-menu(layoutProductCategory, pathProduct)
             .col-4
                 .row.align-items-center 
-                    .col-6
+                    .col-3
+                        .text-left
+                            a(
+                                class="btn btn-warning"
+                                href=`/cart`
+                            ) <i class="fa-solid fa-cart-shopping"> ( #{miniCart ? miniCart.totalQuantity : 0} )</i>
+                    .col-4
                         div 
                             button(
                                 class="button-mode light-mode button-mode-click"
@@ -31,8 +37,7 @@ header.header
                                 class="button-mode dark-mode"
                             ) 
                                 i(class="fa-solid fa-moon")
-
-                    .col-6
+                    .col-5
                         div(class="text-right")
                             if(userClient)
                                 a(
