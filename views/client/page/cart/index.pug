@@ -55,4 +55,30 @@ block main
                 div(class="text-end mt-3") 
                     a(href="/checkout" class="btn btn-success") THANH TOÁN
 
+    .container
+        h2 THANH TOÁN
+        form(
+            action=`/payment/checkout`
+            method="POST"
+            )
+            div(class="form-group")
+                label(for="amount") amount
+                input(
+                    type="text"
+                    class="form-control"
+                    id="amount"
+                    name="amount"
+                    required
+                )
+            div(class="form-group")
+                label(for="email") Email
+                input(
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    required
+                )
+            button(type="submit") THANH TOÁN
+
     script(src="/js/cart.js") 

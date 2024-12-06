@@ -78,8 +78,6 @@ module.exports.createPost = async (req, res) => {
             }
             req.body.token = generate.generateRandomString(20)
 
-            console.log(req.body)
-
             const account = new Account(req.body)
             await account.save()
             req.flash("success", "Thêm tài khoản thành công!")

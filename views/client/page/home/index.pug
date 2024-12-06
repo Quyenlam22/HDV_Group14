@@ -1,18 +1,29 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout.pug
+include ../../mixins/search.pug
 
 block main 
     .container.my-3 
         .row 
+            .col-6
+            .col-6.mb-3
+                +search(keyword)
+        .row 
             .col-12 
                 +box-head("Sản phẩm nổi bật")
 
-        +product-grid(productsFeatured)
+        if(productsFeatured.length > 0)    
+            +product-grid(productsFeatured)
+        else 
+            h3.text-center Không tìm thấy sản phẩm nổi bật
 
     .container.my-3 
         .row 
           .col-12 
             +box-head("Sản phẩm mới nhất")
-
-        +product-grid(productsNew)
+        
+        if(productsNew.length > 0)
+            +product-grid(productsNew)
+        else
+            h3.text-center Không tìm thấy sản phẩm nào
