@@ -1,0 +1,9 @@
+extends ../../layouts/default.pug
+
+block main
+    .text-center.mb-3
+        h1 Click vào đây để sang trang thanh toán
+        button
+            a(
+                href=`order/create_payment_url`
+            ) Click here!

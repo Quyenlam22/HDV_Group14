@@ -29,7 +29,9 @@ database.connect()
 
 //Folder Views
 app.set('views', './views')
+// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+// app.set('view engine', 'jade');
 
 // Folder Public
 app.use(express.static("public"))
