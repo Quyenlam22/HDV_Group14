@@ -8,9 +8,10 @@ const checkoutRoutes = require("./checkout.route")
 // const authMiddleware = require("../../middlewares/client/auth.middleware")
 const categoryMiddleware = require("../../middlewares/client/category.middleware")
 const cartMiddleware = require("../../middlewares/client/cart.middleware")
+const authMiddleware = require("../../middlewares/client/auth.middleware")
 
 module.exports = (app) => {
-  // app.use(authMiddleware.checkUser)
+  app.use(authMiddleware.checkUser)
   app.use(categoryMiddleware.category)
   app.use(cartMiddleware.cartId)
 
@@ -23,8 +24,8 @@ module.exports = (app) => {
   // app.use('/cart', authMiddleware.auth, cartRoutes)
   app.use('/cart', cartRoutes)
 
-  app.use('/order', orderRoutes)
+  app.use('/order', authMiddleware.auth, orderRoutes)
 
-  app.use('/checkout', checkoutRoutes)
+  app.use('/checkout', authMiddleware.auth, checkoutRoutes)
 
 }

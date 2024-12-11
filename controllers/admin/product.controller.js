@@ -121,6 +121,8 @@ module.exports.createPost = async (req, res) => {
         req.body.image = `/uploads/${req.file.filename}`
     }
 
+    req.body.sold = 0
+
     try {
         const product = new Product(req.body)
         await product.save()

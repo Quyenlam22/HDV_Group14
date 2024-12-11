@@ -17,13 +17,28 @@ module.exports.index = async (req, res) => {
                 const productId = item.product_id
                 const productInfo = await Product.findOne({
                     _id: productId,
+                    deleted: false,
+                    status: "active"
                 }).select("title image slug price discountPercentage")
 
-                productInfo.priceNew = productHelper.priceNewProduct(productInfo)
+                if (productInfo) {
+                    productInfo.priceNew = productHelper.priceNewProduct(productInfo)
 
-                item.productInfo = productInfo
+                    item.productInfo = productInfo
 
-                item.totalPrice = productInfo.priceNew * item.quantity
+                    item.totalPrice = productInfo.priceNew * item.quantity
+                }
+                else{
+                    await Cart.updateOne({
+                        _id: cartId,
+                    }, {
+                        $pull: {
+                            products: {
+                                product_id: productId
+                            }
+                        }
+                    })
+                }
             }
         }
 
@@ -131,7 +146,7 @@ module.exports.update = async (req, res) => {
 
         const existProduct = cart.products.find(item => item.product_id == productId)
 
-        if(existProduct){
+        if (existProduct) {
             await Cart.updateOne({
                 _id: cartId,
                 'products.product_id': productId
