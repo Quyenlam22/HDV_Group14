@@ -39,7 +39,7 @@ module.exports.index = async (req, res) => {
         .skip(objectPagination.skip)
 
     res.render("admin/page/roles/index", {
-        titlePage: "Nhóm quyền",
+        pageTitle: "Nhóm quyền",
         records: records,
         pagination: objectPagination,
         keyword: objectSearch.keyword
@@ -49,7 +49,7 @@ module.exports.index = async (req, res) => {
 // [GET] /admin/create
 module.exports.create = async (req, res) => {
     res.render("admin/page/roles/create", {
-        titlePage: "Thêm mới nhóm quyền",
+        pageTitle: "Thêm mới nhóm quyền",
     })
 }
 
@@ -73,7 +73,7 @@ module.exports.edit = async (req, res) => {
         })
 
         res.render("admin/page/roles/edit", {
-            titlePage: "Chỉnh sửa nhóm quyền",
+            pageTitle: "Chỉnh sửa nhóm quyền",
             record: record
         })
     } catch (error) {
@@ -103,7 +103,7 @@ module.exports.detail = async (req, res) => {
             deleted: false
         })
         res.render("admin/page/roles/detail", {
-            titlePage: "Chi tiết nhóm quyền",
+            pageTitle: "Chi tiết nhóm quyền",
             record: record
         })
     } catch (error) {
@@ -121,7 +121,7 @@ module.exports.permissions = async (req, res) => {
     const records = await Role.find(find)
 
     res.render("admin/page/roles/permissions", {
-        titlePage: "Phân quyền",
+        pageTitle: "Phân quyền",
         records: records
     })
 }

@@ -44,6 +44,7 @@ module.exports.index = async (req, res) => {
     const newRecords = await ProductCategory.find(find)
         .limit(objectPagination.limitItems)
         .skip(objectPagination.skip)
+        .sort({position: "asc"})
 
     res.render("admin/page/products-category/index", {
         pageTitle: 'Danh mục sản phẩm',

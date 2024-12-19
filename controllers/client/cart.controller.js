@@ -49,7 +49,6 @@ module.exports.index = async (req, res) => {
             cartDetail: cart
         })
     } catch (error) {
-        req.flash("error", "Có lỗi trong quá trình hiển thị sản phẩm!")
         res.redirect(`/cart`)
     }
 }
@@ -157,10 +156,10 @@ module.exports.update = async (req, res) => {
             })
         }
 
-        req.flash("Cập nhật đơn hàng thành công!")
+        req.flash("success", "Cập nhật đơn hàng thành công!")
         res.redirect("back")
     } catch (error) {
-        req.flash("Có lỗi trong quá trình cập nhật!")
+        req.flash("error", "Có lỗi trong quá trình cập nhật!")
         res.redirect("/cart")
     }
 }

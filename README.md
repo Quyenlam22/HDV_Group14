@@ -1,10 +1,14 @@
+Yêu cầu cài đặt: NodeJS, MongoDB
+
 // Các biến môi trường (.env)
+
 PORT=3000
 MONGO_URL=mongodb+srv://ledaoquyen2004:lamlamlam01@cluster0.1ihim.mongodb.net/Smartphone_Management
 
 // Sau khi download project về.
-//npm init để khởi tạo dự án với NodeJs 
-//Chạy npm install để cài các thư viện cần thiết
+
+npm init để khởi tạo dự án với NodeJs 
+npm install để cài các thư viện cần thiết
 
 // Run project chạy câu lệnh npm start trong terminal
 

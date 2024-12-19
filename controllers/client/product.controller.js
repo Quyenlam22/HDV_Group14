@@ -20,7 +20,7 @@ module.exports.index = async (req, res) => {
 
     // Call database 
     const products = await Product.find(find)
-                            .sort({position: "asc"})
+                            .sort({position: "desc"})
     
     const newProducts = productsHelper.priceNewProducts(products)
 
