@@ -28,13 +28,13 @@ const database = require("./config/database")
 database.connect()
 
 //Folder Views
-app.set('views', './views')
-// app.set('views', path.join(__dirname, 'views'));
+// app.set('views', './views')
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // app.set('view engine', 'jade');
 
 // Folder Public
-app.use(express.static("public"))
+app.use(express.static(`${__dirname}/public`))
 
 //Method Override
 // Override with POST having ?_method=DELETE
