@@ -89,6 +89,7 @@ module.exports.registerPost = async (req, res) => {
         req.body.password = md5(req.body.password)
 
         req.body.tokenUser = generate.generateRandomString(20)
+        req.body.tokenForgot = generate.generateRandomString(20)
 
         delete req.body.confirm_password
 
@@ -189,7 +190,8 @@ module.exports.otpPasswordPost = async (req, res) => {
             email: email
         })
 
-        res.redirect(`/auth/password/reset?email=${email}`)
+        res.cookie("tokenForgot", user.tokenForgot)
+        res.redirect(`/auth/password/reset`)
     } catch (e) {
         req.flash("error", "Có lỗi trong quá trình gửi OTP!")
         res.redirect("back")
@@ -200,7 +202,6 @@ module.exports.otpPasswordPost = async (req, res) => {
 module.exports.resetPassword = async (req, res) => {
     res.render("client/page/auth/reset-password", {
         pageTitle: "Đặt lại mật khẩu",
-        email: req.query.email
     })
 }
 
@@ -209,21 +210,13 @@ module.exports.resetPasswordPost = async (req, res) => {
     try {
         const password = req.body.password
 
-        const user = await User.findOne({
-            email: req.body.email
-        })
-
-        if (!user) {
-            req.flash("error", "Kiểm tra lại email của bạn trên thanh URL!")
-            res.redirect("back")
-            return
-        }
         await User.updateOne({
-            email: req.body.email
+            tokenForgot: req.cookies.tokenForgot
         }, {
             password: md5(password)
         })
 
+        res.clearCookie("tokenForgot")
         req.flash("success", " Cập nhật mật khẩu thành công!")
         res.redirect('/auth/login')
     } catch (e) {

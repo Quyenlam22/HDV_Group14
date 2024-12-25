@@ -19,6 +19,9 @@ header.header
                                     -const pathProduct = "/products"
                                     a(href=pathProduct) Sản phẩm
                                         +sub-menu(layoutProductCategory, pathProduct)
+                                if(userClient)
+                                    li 
+                                        a(href="/order") Đơn mua
             .col-5
                 .row.align-items-center 
                     .col-3

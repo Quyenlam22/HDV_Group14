@@ -7,21 +7,22 @@ let router = express.Router();
 // const request = require('request');
 // const moment = require('moment');
 
-const controller = require("../../controllers/client/order.cotroller")
+const controller = require("../../controllers/client/order.controller")
+const orderMiddleware = require("../../middlewares/client/order.middleware")
 
 router.get('/', controller.index);
 
-router.get('/create_payment_url', controller.payment);
+router.get('/create_payment_url', orderMiddleware.tokenOrder, controller.payment);
 
-router.get('/refund', controller.refund);
+router.get('/refund', orderMiddleware.tokenOrder, controller.refund);
 
-router.post('/refund', controller.refundPost);
+router.post('/refund', orderMiddleware.tokenOrder, controller.refundPost);
 
-router.post('/create_payment_url', controller.paymentPost);
+router.post('/create_payment_url', orderMiddleware.tokenOrder, controller.paymentPost);
 
-router.get('/vnpay_return', controller.return);
+router.get('/vnpay_return', orderMiddleware.tokenOrder, controller.return);
 
-router.get('/vnpay_ipn', function (req, res, next) {
+router.get('/vnpay_ipn', orderMiddleware.tokenOrder, function (req, res, next) {
     let vnp_Params = req.query;
     let secureHash = vnp_Params['vnp_SecureHash'];
 
@@ -80,9 +81,11 @@ router.get('/vnpay_ipn', function (req, res, next) {
     }
 });
 
-router.get('/querydr', controller.querydr);
+router.get('/querydr', orderMiddleware.tokenOrder, controller.querydr);
 
-router.post('/querydr', controller.querydrPost);
+router.post('/querydr', orderMiddleware.tokenOrder, controller.querydrPost);
+
+router.post('/create_payment_again', orderMiddleware.tokenOrder, controller.paymentAgain);
 
 function sortObject(obj) {
     let sorted = {};

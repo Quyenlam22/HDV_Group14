@@ -11,90 +11,132 @@ const moment = require('moment')
 
 // [GET] /order
 module.exports.index = async (req, res) => {
-    const user = await User.findOne({
-        tokenUser: req.cookies.tokenUser
-    })
-    const order = await Order.find({
-        user_id: user.id,
-        deleted: false
-    })
+    // Lặp qua từng phần tử để lấy thông tin sản phẩm 
+    // Tối ưu đoạn code tính tôngr tiền san phẩm thành helper
+    let listProducts = []
 
-    res.render('order/orderlist.jade', {
-        title: 'Danh sách đơn hàng',
-        order: order
+    for (const order of res.locals.orders) {
+        for (const product of order.products) {
+            const orderProduct = await Product.findOne({
+                _id: product.product_id,
+                deleted: false,
+                status: "active"
+            }).select("title image")
+
+            product.title = orderProduct.title
+            product.image = orderProduct.image
+            product.priceNew = productHelper.priceNewProduct(product)
+            product.totalPrice = product.priceNew * product.quantity
+            listProducts.push(product)
+        }
+        order.totalPrice = listProducts.reduce((sum, item) => item.totalPrice + sum, 0)
+        order.listProducts = listProducts
+        listProducts = []
+    }
+    // res.locals.orders.totalPrice = order.listProducts.reduce((sum, item) => item.totalPrice + sum, 0)
+
+    res.render('order/orderlist.pug', {
+        pageTitle: 'Danh sách đơn hàng',
+        listProducts: listProducts
     })
 }
 
 // [GET] /order/create_payment_url
 module.exports.payment = async (req, res) => {
-    const cartId = req.cookies.cartId
-    const tokenUser = req.cookies.tokenUser
-    const cart = await Cart.findOne({
-        _id: cartId
-    })
-    const user = await User.findOne({
-        tokenUser: tokenUser
-    })
-
-    const products = []
-
-    if (cart.products.length > 0) {
-        for (const item of cart.products) {
-            const objectProduct = {
-                product_id: item.product_id,
-                quantity: item.quantity
-            }
-            const productInfo = await Product.findOne({
-                _id: item.product_id,
-            }).select("price discountPercentage")
-
-            item.productInfo = productInfo
-            item.priceNew = productHelper.priceNewProduct(item.productInfo)
-
-            item.totalPrice = item.priceNew * item.quantity
-
-            objectProduct.price = productInfo.price
-            objectProduct.discountPercentage = productInfo.discountPercentage
+    try {
+        if (Object.keys(req.query).length == 0) {
+            const order = await Order.findOne({
+                _id: req.cookies.order
+            })
             
-            products.push(objectProduct)
+            if (order.products.length > 0) {
+                for (const item of order.products) {
+                    item.priceNew = productHelper.priceNewProduct(item)
+
+                    item.totalPrice = item.priceNew * item.quantity
+                }
+            }
+
+            order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice * 25000, 0)
+
+            res.render('order/index.jade', {
+                title: 'Thanh toán đơn hàng',
+                cart: order
+            })
+            //Xử lý lấy thông tin và giá tiền
+        } else {
+            const cartId = req.cookies.cartId
+            const tokenUser = req.cookies.tokenUser
+            const cart = await Cart.findOne({
+                _id: cartId
+            })
+            const user = await User.findOne({
+                tokenUser: tokenUser
+            })
+
+            const products = []
+
+            if (cart.products.length > 0) {
+                for (const item of cart.products) {
+                    const objectProduct = {
+                        product_id: item.product_id,
+                        quantity: item.quantity
+                    }
+                    const productInfo = await Product.findOne({
+                        _id: item.product_id,
+                    }).select("price discountPercentage")
+
+                    item.productInfo = productInfo
+                    item.priceNew = productHelper.priceNewProduct(item.productInfo)
+
+                    item.totalPrice = item.priceNew * item.quantity
+
+                    objectProduct.price = productInfo.price
+                    objectProduct.discountPercentage = productInfo.discountPercentage
+
+                    products.push(objectProduct)
+                }
+            }
+
+            cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice * 25000, 0)
+
+            const userInfo = {
+                fullName: req.query.fullName,
+                phone: req.query.phone,
+                address: req.query.address
+            }
+
+            if (!req.cookies.order) {
+                const order = new Order({
+                    cart_id: req.cookies.cartId,
+                    userInfo: userInfo,
+                    user_id: user.id,
+                    products: products
+                })
+                await order.save()
+
+                res.cookie("order", order.id, {
+                    maxAge: 365 * 24 * 60 * 60 * 1000
+                })
+            } else {
+                await Order.updateOne({
+                    _id: req.cookies.order
+                }, {
+                    userInfo: userInfo,
+                    cart_id: req.cookies.cartId,
+                    user_id: user.id,
+                    products: products
+                })
+            }
+            res.render('order/index.jade', {
+                title: 'Thanh toán đơn hàng',
+                cart: cart
+            })
         }
+    } catch (e) {
+        req.flash("error", "Có lỗi trong quá trình xử lý đơn !")
+        res.redirect("back")
     }
-
-    cart.totalPrice = cart.products.reduce((sum, item) => sum + item.totalPrice * 25000, 0)
-
-    const userInfo = {
-        fullName: req.query.fullName,
-        phone: req.query.phone,
-        address: req.query.address
-    }
-
-    if(!req.cookies.order){
-        const order = new Order({
-            cart_id: req.cookies.cartId,
-            userInfo: userInfo,
-            user_id: user.id,
-            products: products
-        })
-        await order.save()
-    
-        res.cookie("order", order.id, {maxAge: 365*24*60*60*1000})
-    }
-    else{
-        await Order.updateOne({_id: req.cookies.order},{
-            userInfo: userInfo,
-            cart_id: req.cookies.cartId,
-            user_id: user.id,
-            products: products
-        })
-    }
-    const order = await Order.findOne({
-        _id: req.cookies.order
-    })
-
-    res.render('order/index.jade', {
-        title: 'Thanh toán đơn hàng',
-        cart: cart
-    })
 }
 
 // [POST] /order/create_payment_url
@@ -181,30 +223,20 @@ module.exports.return = async (req, res) => {
     let hmac = crypto.createHmac("sha512", secretKey);
     let signed = hmac.update(new Buffer(signData, 'utf-8')).digest("hex");
 
-    const cart = await Cart.findOne({
-        _id: req.cookies.cartId
-    })
-
-    // for (const item of cart.products) {
-    //     const product = await Product.findOne({_id: product.product_id})
-    //     const soldNew = item.quantity + product.sold
-    //     await Product.updateOne({_id: item.product_id},{
-    //         sold: soldNew
-    //     })
-    // }
-
     const order = await Order.findOne({
         _id: req.cookies.order
     })
-    
-    if(order){
+
+    if (order) {
         for (const product of order.products) {
             const productInfo = await Product.findOne({
                 _id: product.product_id
             }).select("title image sold")
 
             const soldNew = product.quantity + productInfo.sold
-            await Product.updateOne({_id: product.product_id},{
+            await Product.updateOne({
+                _id: product.product_id
+            }, {
                 sold: soldNew
             })
 
@@ -212,14 +244,21 @@ module.exports.return = async (req, res) => {
             product.priceNew = productHelper.priceNewProduct(product)
             product.totalPrice = product.quantity * product.priceNew
         }
-    
+
         order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0)
+
     }
 
     await Cart.updateOne({
         _id: req.cookies.cartId
     }, {
         products: []
+    })
+
+    await Order.updateOne({
+        _id: req.cookies.order
+    }, {
+        status: "processed"
     })
 
     res.clearCookie("order")
@@ -261,7 +300,7 @@ module.exports.refundPost = async (req, res) => {
 
     let vnp_TxnRef = req.body.orderId;
     let vnp_TransactionDate = req.body.transDate;
-    let vnp_Amount = req.body.amount *100;
+    let vnp_Amount = req.body.amount * 100;
     let vnp_TransactionType = req.body.transType;
     let vnp_CreateBy = req.body.user;
 
@@ -286,7 +325,7 @@ module.exports.refundPost = async (req, res) => {
     let hmac = crypto.createHmac("sha512", secretKey);
     let vnp_SecureHash = hmac.update(new Buffer(data, 'utf-8')).digest("hex");
 
-     let dataObj = {
+    let dataObj = {
         'vnp_RequestId': vnp_RequestId,
         'vnp_Version': vnp_Version,
         'vnp_Command': vnp_Command,
@@ -306,11 +345,11 @@ module.exports.refundPost = async (req, res) => {
     request({
         url: vnp_Api,
         method: "POST",
-        json: true,   
+        json: true,
         body: dataObj
-            }, function (error, response, body){
-                console.log(response);
-            });
+    }, function (error, response, body) {
+        console.log(response);
+    });
 }
 
 // [GET] /order/querydr
@@ -336,7 +375,7 @@ module.exports.querydrPost = async (req, res) => {
     let vnp_TxnRef = req.body.orderId;
     let vnp_TransactionDate = req.body.transDate;
 
-    let vnp_RequestId =moment(date).format('HHmmss');
+    let vnp_RequestId = moment(date).format('HHmmss');
     let vnp_Version = '2.1.0';
     let vnp_Command = 'querydr';
     let vnp_OrderInfo = 'Truy van GD ma:' + vnp_TxnRef;
@@ -352,7 +391,7 @@ module.exports.querydrPost = async (req, res) => {
     let data = vnp_RequestId + "|" + vnp_Version + "|" + vnp_Command + "|" + vnp_TmnCode + "|" + vnp_TxnRef + "|" + vnp_TransactionDate + "|" + vnp_CreateDate + "|" + vnp_IpAddr + "|" + vnp_OrderInfo;
 
     let hmac = crypto.createHmac("sha512", secretKey);
-    let vnp_SecureHash = hmac.update(new Buffer(data, 'utf-8')).digest("hex"); 
+    let vnp_SecureHash = hmac.update(new Buffer(data, 'utf-8')).digest("hex");
 
     let dataObj = {
         'vnp_RequestId': vnp_RequestId,
@@ -370,11 +409,18 @@ module.exports.querydrPost = async (req, res) => {
     request({
         url: vnp_Api,
         method: "POST",
-        json: true,   
+        json: true,
         body: dataObj
-            }, function (error, response, body){
-                console.log(response);
-            });
+    }, function (error, response, body) {
+        console.log(response);
+    });
+}
+
+// [POST] /order/create_payment_again
+module.exports.paymentAgain = async (req, res) => {
+    res.cookie("order", req.body.id)
+
+    res.redirect(`/order/create_payment_url`)
 }
 
 function sortObject(obj) {
@@ -392,4 +438,3 @@ function sortObject(obj) {
     }
     return sorted;
 }
-
