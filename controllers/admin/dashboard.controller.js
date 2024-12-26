@@ -2,6 +2,7 @@ const Product = require("../../models/product.model")
 const TimeLogin = require("../../models/time-log.model")
 const Account = require("../../models/account.model")
 const Role = require("../../models/roles.model")
+const Chart = require("../../models/chart.model")
 
 module.exports.dashboard = async (req, res) => {
     let find = {
@@ -37,10 +38,22 @@ module.exports.dashboard = async (req, res) => {
         timeLog.accountRoleTitle = role.title
     }
 
+    const charts = await Chart.find()
+
+    let listRevenue = []
+    let listSold = []
+
+    for (const chart of charts) {
+        listRevenue.push(chart.revenue)
+        listSold.push(chart.sold)
+    }
+
     res.render("./admin/page/dashboard/index.pug", {
         pageTitle: "Trang tổng quan",
         records: records.slice(0, 5),
         objectProducts: objectProducts,
-        timeLogs: timeLogs
+        timeLogs: timeLogs,
+        listRevenue: JSON.stringify(listRevenue.slice(-7)),
+        listSold: JSON.stringify(listSold.slice(-7))
     })
 }

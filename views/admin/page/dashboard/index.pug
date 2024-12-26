@@ -124,133 +124,48 @@ block main
                     span /Today
                   // Line Chart
                   #reportsChart
-                  script.
-                    document.addEventListener("DOMContentLoaded", () => {
-                    new ApexCharts(document.querySelector("#reportsChart"), {
-                    series: [{
-                    name: 'Sales',
-                    data: [31, 40, 28, 51, 42, 82, 56],
-                    }, {
-                    name: 'Revenue',
-                    data: [11, 32, 45, 32, 34, 52, 41]
-                    }, {
-                    name: 'Customers',
-                    data: [15, 11, 32, 18, 9, 24, 11]
-                    }],
-                    chart: {
-                    height: 350,
-                    type: 'area',
-                    toolbar: {
-                    show: false
-                    },
-                    },
-                    markers: {
-                    size: 4
-                    },
-                    colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                    fill: {
-                    type: "gradient",
-                    gradient: {
-                    shadeIntensity: 1,
-                    opacityFrom: 0.3,
-                    opacityTo: 0.4,
-                    stops: [0, 90, 100]
-                    }
-                    },
-                    dataLabels: {
-                    enabled: false
-                    },
-                    stroke: {
-                    curve: 'smooth',
-                    width: 2
-                    },
-                    xaxis: {
-                    type: 'datetime',
-                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                    },
-                    tooltip: {
-                    x: {
-                    format: 'dd/MM/yy HH:mm'
-                    },
-                    }
-                    }).render();
-                    });
+                    script.
+                      //- let salesData = charts.map(item => item.sold)
+                      document.addEventListener("DOMContentLoaded", () => {
+                        new ApexCharts(document.querySelector("#reportsChart"), {
+                            series: [{
+                                name: 'Sales',
+                                data: #{listSold},
+                            }, {
+                                name: 'Revenue',
+                                data: #{listRevenue}
+                            }],
+                            chart: {
+                                height: 350,
+                                type: 'area',
+                                toolbar: { show: false },
+                            },
+                            markers: { size: 4 },
+                            colors: ['#4154f1', '#2eca6a'],
+                            fill: {
+                                type: "gradient",
+                                gradient: {
+                                    shadeIntensity: 1,
+                                    opacityFrom: 0.3,
+                                    opacityTo: 0.4,
+                                    stops: [0, 90, 100]
+                                }
+                            },
+                            dataLabels: { enabled: false },
+                            stroke: {
+                                curve: 'smooth',
+                                width: 2
+                            },
+                            xaxis: {
+                                type: 'datetime',
+                                categories: ["2024-01-01T00:00:00.000Z", "2024-01-02T00:00:00.000Z", "2024-01-03T00:00:00.000Z", "2024-01-04T00:00:00.000Z", "2024-01-05T00:00:00.000Z", "2024-01-06T00:00:00.000Z", "2024-01-07T00:00:00.000Z"]
+                            },
+                            tooltip: { x: { format: 'dd/MM/yy HH:mm' } }
+                        }).render();
+                      })
                   // End Line Chart
             // End Reports
-            // Recent Sales
-            .col-12
-              .card.recent-sales.overflow-auto
-                .filter
-                  a.icon(href='#', data-bs-toggle='dropdown')
-                    i.bi.bi-three-dots
-                  ul.dropdown-menu.dropdown-menu-end.dropdown-menu-arrow
-                    li.dropdown-header.text-start
-                      h6 Filter
-                    li
-                      a.dropdown-item(href='#') Today
-                    li
-                      a.dropdown-item(href='#') This Month
-                    li
-                      a.dropdown-item(href='#') This Year
-                .card-body
-                  h5.card-title
-                    | Recent Sales 
-                    span | Today
-                  table.table.table-borderless.datatable
-                    thead
-                      tr
-                        th(scope='col') #
-                        th(scope='col') Customer
-                        th(scope='col') Product
-                        th(scope='col') Price
-                        th(scope='col') Status
-                    tbody
-                      tr
-                        th(scope='row')
-                          a(href='#') #2457
-                        td Brandon Jacob
-                        td
-                          a.text-primary(href='#') At praesentium minu
-                        td $64
-                        td
-                          span.badge.bg-success Approved
-                      tr
-                        th(scope='row')
-                          a(href='#') #2147
-                        td Bridie Kessler
-                        td
-                          a.text-primary(href='#') Blanditiis dolor omnis similique
-                        td $47
-                        td
-                          span.badge.bg-warning Pending
-                      tr
-                        th(scope='row')
-                          a(href='#') #2049
-                        td Ashleigh Langosh
-                        td
-                          a.text-primary(href='#') At recusandae consectetur
-                        td $147
-                        td
-                          span.badge.bg-success Approved
-                      tr
-                        th(scope='row')
-                          a(href='#') #2644
-                        td Angus Grady
-                        td
-                          a.text-primar(href='#') Ut voluptatem id earum et
-                        td $67
-                        td
-                          span.badge.bg-danger Rejected
-                      tr
-                        th(scope='row')
-                          a(href='#') #2644
-                        td Raheem Lehner
-                        td
-                          a.text-primary(href='#') Sunt similique distinctio
-                        td $165
-                        td
-                          span.badge.bg-success Approved
-            // End Recent Sales
+            
             // Top Selling
             .col-12
               .card.top-selling.overflow-auto
@@ -335,39 +250,6 @@ block main
                   a.dropdown-item(href='#') This Month
                 li
                   a.dropdown-item(href='#') This Year
-            .card-body.pb-0
-              h5.card-title
-                | News &amp; Updates 
-                span | Today
-              .news
-                .post-item.clearfix
-                  img(src='/assets/img/news-1.jpg', alt='')
-                  h4
-                    a(href='#') Nihil blanditiis at in nihil autem
-                  p Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...
-                .post-item.clearfix
-                  img(src='/assets/img/news-2.jpg', alt='')
-                  h4
-                    a(href='#') Quidem autem et impedit
-                  p Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...
-                .post-item.clearfix
-                  img(src='/assets/img/news-3.jpg', alt='')
-                  h4
-                    a(href='#') Id quia et et ut maxime similique occaecati ut
-                  p Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...
-                .post-item.clearfix
-                  img(src='/assets/img/news-4.jpg', alt='')
-                  h4
-                    a(href='#') Laborum corporis quo dara net para
-                  p Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...
-                .post-item.clearfix
-                  img(src='/assets/img/news-5.jpg', alt='')
-                  h4
-                    a(href='#') Et dolores corrupti quae illo quod dolor
-                  p
-                    | Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...
-              // End sidebar recent posts
-          // End News & Updates
         // End Right side columns
       // Vendor JS Files
   script(src="/admin/js/dashboard.js") 

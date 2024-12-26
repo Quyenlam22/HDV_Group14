@@ -2,6 +2,7 @@ const Cart = require("../../models/cart.model")
 const Product = require("../../models/product.model")
 const Order = require("../../models/order.model")
 const User = require("../../models/user.model")
+const Chart = require("../../models/chart.model")
 
 const productHelper = require("../../helpers/client/priceNewProduct")
 
@@ -247,8 +248,19 @@ module.exports.return = async (req, res) => {
             product.totalPrice = product.quantity * product.priceNew
         }
 
+        order.totalQuantity = order.products.reduce((sum, item) => sum + item.quantity, 0)
         order.totalPrice = order.products.reduce((sum, item) => sum + item.totalPrice, 0)
 
+        // const chart = await Chart.find().sort({createdAt: "desc"}).limit(1)
+        const chart = await Chart.findOne().sort({createdAt: "desc"})
+
+        const objectChart = {
+            revenue: chart.revenue + order.totalPrice,
+            sold: chart.sold + order.totalQuantity
+        }
+        const newChart = new Chart(objectChart)
+
+        await newChart.save()
     }
 
     await Cart.updateOne({
