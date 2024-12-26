@@ -15,23 +15,25 @@ module.exports.index = async (req, res) => {
     // Tối ưu đoạn code tính tôngr tiền san phẩm thành helper
     let listProducts = []
 
-    for (const order of res.locals.orders) {
-        for (const product of order.products) {
-            const orderProduct = await Product.findOne({
-                _id: product.product_id,
-                deleted: false,
-                status: "active"
-            }).select("title image")
-
-            product.title = orderProduct.title
-            product.image = orderProduct.image
-            product.priceNew = productHelper.priceNewProduct(product)
-            product.totalPrice = product.priceNew * product.quantity
-            listProducts.push(product)
+    if(res.locals.orders){
+        for (const order of res.locals.orders) {
+            for (const product of order.products) {
+                const orderProduct = await Product.findOne({
+                    _id: product.product_id,
+                    deleted: false,
+                    status: "active"
+                }).select("title image")
+    
+                product.title = orderProduct.title
+                product.image = orderProduct.image
+                product.priceNew = productHelper.priceNewProduct(product)
+                product.totalPrice = product.priceNew * product.quantity
+                listProducts.push(product)
+            }
+            order.totalPrice = listProducts.reduce((sum, item) => item.totalPrice + sum, 0)
+            order.listProducts = listProducts
+            listProducts = []
         }
-        order.totalPrice = listProducts.reduce((sum, item) => item.totalPrice + sum, 0)
-        order.listProducts = listProducts
-        listProducts = []
     }
     // res.locals.orders.totalPrice = order.listProducts.reduce((sum, item) => item.totalPrice + sum, 0)
 

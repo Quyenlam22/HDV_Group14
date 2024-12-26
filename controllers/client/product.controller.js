@@ -76,16 +76,25 @@ module.exports.category = async (req, res) => {
     
     const listSubCategoryId = listSubCategory.map(item => item.id)
     
-    const products = await Product.find({
+    let find = {
         product_category_id: {$in: [category.id, ...listSubCategoryId]},
         status: "active",
         deleted: false
-    })
+    }
+
+    // Search
+    const objectSearch = searchHelper(req.query)
+    if(objectSearch.keyword){
+        find.title = objectSearch.regex
+    }
+
+    const products = await Product.find(find)
     
     const newProducts = productsHelper.priceNewProducts(products)
 
     res.render("client/page/products", {
         pageTitle: "Danh sách sản phẩm",
         products: newProducts,
+        keyword: objectSearch.keyword,
     })
 }
